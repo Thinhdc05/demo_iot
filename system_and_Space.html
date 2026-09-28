@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <title>Hệ thống & Không gian | UPJ IoT Enterprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior: none; }
+            main>:first-child { margin-top: 0 !important; }
+            main>:last-child { margin-bottom: 0 !important; }
+        }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-highest": "#343536",
+                        "on-tertiary-fixed-variant": "#454a00",
+                        "on-background": "#e3e2e3",
+                        "surface-container": "#1f2021",
+                        "primary": "#bdc2ff",
+                        "secondary-container": "#274b6e",
+                        "on-primary": "#121f8b",
+                        "status-alarm": "#F43F5E",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-primary-fixed-variant": "#2e3aa2",
+                        "surface-border": "#1E2229",
+                        "inverse-surface": "#e3e2e3",
+                        "on-surface-variant": "#c6c5d5",
+                        "tertiary-fixed": "#dfed1a",
+                        "background": "#121315",
+                        "surface-border-subtle": "rgba(255, 255, 255, 0.08)",
+                        "on-tertiary-fixed": "#1b1d00",
+                        "error-container": "#93000a",
+                        "outline-variant": "#454652",
+                        "surface-bright": "#38393a",
+                        "secondary-fixed": "#d0e4ff",
+                        "status-online": "#10B981",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#25496c",
+                        "on-secondary-container": "#99bbe4",
+                        "tertiary": "#c3d000",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e3",
+                        "secondary": "#a7caf3",
+                        "on-primary-fixed": "#000965",
+                        "text-muted": "#8B93A1",
+                        "tertiary-container": "#717900",
+                        "surface-container-lowest": "#0d0e0f",
+                        "secondary-fixed-dim": "#a7caf3",
+                        "surface-variant": "#343536",
+                        "primary-fixed": "#dfe0ff",
+                        "outline": "#908f9e",
+                        "status-warm": "#F59E0B",
+                        "inverse-primary": "#4854bb",
+                        "surface-container-low": "#1b1c1d",
+                        "surface-dim": "#121315",
+                        "surface-container-high": "#292a2b",
+                        "inverse-on-surface": "#303032",
+                        "on-tertiary": "#2f3300",
+                        "status-telemetry": "#0EA5E9",
+                        "on-tertiary-container": "#fcffc3",
+                        "primary-container": "#5e6ad2",
+                        "on-secondary": "#063254",
+                        "tertiary-fixed-dim": "#c3d000",
+                        "surface": "#121315",
+                        "on-primary-container": "#fdfaff",
+                        "surface-tint": "#bdc2ff"
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    spacing: {
+                        "space-lg": "1rem", "space-2xl": "2.5rem", "space-sm": "0.5rem",
+                        "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem",
+                        "space-xl": "1.5rem", "space-md": "0.75rem", "space-xs": "0.25rem", "gutter-desktop": "1.5rem"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display-lg-mobile": ["Geist", "sans-serif"],
+                        "label-metric": ["JetBrains Mono", "monospace"],
+                        "headline-sm": ["Geist", "sans-serif"],
+                        "display-lg": ["Geist", "sans-serif"],
+                        "label-code": ["JetBrains Mono", "monospace"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "label-xs": ["JetBrains Mono", "monospace"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-background font-body-sm text-body-sm text-on-surface antialiased">
+    <!-- Sidebar Navigation -->
+    <aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="p-space-lg flex items-center justify-between gap-space-sm cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="flex items-center gap-space-sm">
+                <img alt="UPJ IoT Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa7FvUhwtzEtCme7Vh08A-UB_XuFJpRjauhlSz4d7zvfOzq3UuKu8RVgzUrQOZF9WcdJOtShcMTB2azdqehLBrJk7C-JIE1S5rPJGOhnh6a7SGlRZ8-BAAj_iHr5ZXx38hLcZNdjPfjmq7uoBRcZrYwh2uW2Bb_J7nKmG0BR1fInLlrYDvz9xzBX44mHUxNSu6WSjo_ZLcuCABQBPG7U5qVoSfkVCtRzt6vo_zfFgMlbqowfI06VQuzQ" />
+                <div class="flex flex-col">
+                    <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">UPJ IoT</span>
+                    <span class="font-label-xs text-label-xs text-primary bg-primary-container/20 px-space-xs py-0.5 rounded-lg mt-1 font-label-code">ENTERPRISE v1.2</span>
+                </div>
+            </div>
+            <span class="material-symbols-outlined text-outline text-lg">dns</span>
+        </div>
+        <div class="px-space-lg pb-space-md">
+            <div class="relative bg-surface-container p-space-sm rounded-xl">
+                <div class="text-label-xs font-label-xs text-text-muted uppercase mb-1 tracking-wider">Khu vực điều khiển</div>
+                <div class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-space-xs">
+                        <span class="material-symbols-outlined text-status-telemetry text-sm">apartment</span>
+                        <select class="bg-transparent font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[170px] focus:outline-none cursor-pointer">
+                            <option class="bg-surface-container-high text-on-surface" value="cau-giay">Nhà phố Cầu Giấy (Hà Nội)</option>
+                            <option class="bg-surface-container-high text-on-surface" value="ba-vi">Trang trại Ba Vì</option>
+                        </select>
+                    </div>
+                    <span class="material-symbols-outlined text-outline text-sm">unfold_more</span>
+                </div>
+            </div>
+        </div>
+        <nav class="flex-1 px-space-md space-y-1 overflow-y-auto">
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="dashboard-overview" href="index.html">
+                <span class="material-symbols-outlined text-lg">dashboard</span>
+                <span class="font-body-sm text-body-sm">Tổng quan</span>
+            </a>
+            <a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-medium rounded-xl" data-path="systems-and-spaces" href="system_and_Space.html">
+                <span class="material-symbols-outlined text-lg">home</span>
+                <span class="font-body-sm text-body-sm">Hệ thống & Không gian</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="device-center" href="device.html">
+                <span class="material-symbols-outlined text-lg">bolt</span>
+                <span class="font-body-sm text-body-sm">Bảng điều khiển Thiết bị</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="hardware-gateways" href="device.html#gateways">
+                <span class="material-symbols-outlined text-lg">sensors</span>
+                <span class="font-body-sm text-body-sm">Cổng điều khiển ESP32</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="automations" href="rule.html">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="font-body-sm text-body-sm">Kịch bản Tự động hóa</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="energy-and-logs" href="stat.html">
+                <span class="material-symbols-outlined text-lg">monitoring</span>
+                <span class="font-body-sm text-body-sm">Thống kê Năng lượng & Nhật ký</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="gemini-generative-setup" href="AI.html">
+                <span class="material-symbols-outlined text-lg">smart_toy</span>
+                <span class="font-body-sm text-body-sm">Trợ lý AI Cấu hình</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="members-and-rbac" href="admin.html">
+                <span class="material-symbols-outlined text-lg">shield_person</span>
+                <span class="font-body-sm text-body-sm">Quản trị Thành viên & Phân quyền</span>
+            </a>
+        </nav>
+        <div class="p-space-md bg-surface-container-lowest mx-space-md mb-space-md rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-space-sm cursor-pointer" onclick="window.location.href='profile.html'">
+                <div class="relative">
+                    <img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1oy3PpcULmLgElidaoZMmoq9X6I6s4UP1ogWq4vwOp_6gnpT3O63eXG0AiyPE-o6hkzabIQ58IEl3KCYindgQOw20eQV9NsEVCN25yET8fMA8RCvmR2qAxzwjqqe0zxTawovG4JFcixc4O1MqVe1VmDesQfdYI8SOCBlijDBqrD54BIZlGa7duVvQ2_r8v4BlFZvhWAtp95bdxJW60-or_3DD-hSL53qm8i3vcFW9Nb60gho5Qxtj2Q" />
+                    <div class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-status-online"></div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[110px]">Nguyễn Minh Tuấn</span>
+                    <span class="font-label-xs text-label-xs text-tertiary uppercase">SUPER_ADMIN</span>
+                </div>
+            </div>
+            <button class="text-outline hover:text-status-alarm transition-colors" type="button" title="Đăng xuất">
+                <span class="material-symbols-outlined text-lg">logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Shell -->
+    <div class="pl-72 min-h-screen flex flex-col">
+        <!-- Top App Bar -->
+        <header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl">
+            <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-space-xs text-text-muted font-body-sm text-body-sm">
+                    <span class="hover:text-on-surface cursor-pointer" onclick="window.location.href='index.html'">Hệ thống Cầu Giấy</span>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="text-on-surface font-medium">Hệ thống & Không gian</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-space-md">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+                    <input class="bg-surface-container text-on-surface placeholder:text-text-muted pl-8 pr-12 py-1 rounded-xl text-body-sm font-body-sm focus:outline-none w-64 h-8" placeholder="Tìm không gian, phòng, node..." type="text" />
+                    <kbd class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code text-label-xs text-outline bg-surface-container-high px-1 py-0.5 rounded">⌘K</kbd>
+                </div>
+                <div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container font-label-code text-label-xs text-text-muted">
+                    <span class="w-2 h-2 rounded-full bg-status-online animate-pulse"></span>
+                    <span>MQTT: ws://broker.upj.io:8883</span>
+                    <span class="text-status-online font-bold ml-1">ONLINE 100%</span>
+                </div>
+                <div class="relative cursor-pointer">
+                    <span class="material-symbols-outlined text-outline hover:text-on-surface transition-colors">notifications</span>
+                    <span class="absolute -top-1 -right-1 bg-status-alarm text-on-surface font-label-code text-label-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">3</span>
+                </div>
+                <button class="text-outline hover:text-on-surface transition-colors p-1" type="button" title="Chuyển chế độ sáng/tối">
+                    <span class="material-symbols-outlined text-lg">dark_mode</span>
+                </button>
+                <button class="flex items-center gap-space-xs bg-primary-container hover:bg-surface-container-high text-on-primary-container px-space-md py-1.5 rounded-xl font-body-sm text-body-sm font-medium transition-colors" type="button" onclick="openAddSpaceModal()">
+                    <span class="material-symbols-outlined text-sm">add</span>
+                    <span>+ Thêm Không gian</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="w-full pt-16 bg-surface px-space-xl flex-1">
+            <div class="flex flex-col w-full pb-space-2xl space-y-space-xl">
+                <!-- Page Header & Ambient Banner -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pt-space-md">
+                    <div class="flex flex-col space-y-space-xs">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Hệ thống & Phân vùng Không gian (Physical Hierarchy)</span>
+                            <span class="px-space-sm py-0.5 rounded-full bg-primary-container/20 text-primary font-label-code text-label-xs font-semibold">MESH TOPOLOGY v2</span>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-text-muted">
+                            Quản lý cây phân cấp vật lý từ Cụm cơ sở, Khu vực (Phòng) tới các Node ESP32 Gateway và ánh xạ cảm biến/ngoại vi.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-space-sm shrink-0">
+                        <button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-body-sm text-body-sm transition-colors border border-surface-border-subtle" onclick="simulateScanTopology()" type="button">
+                            <span class="material-symbols-outlined text-sm text-status-telemetry">radar</span>
+                            <span>Quét Mesh Topology</span>
+                        </button>
+                        <button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-body-sm font-semibold transition-all shadow-md" onclick="openAddSpaceModal()" type="button">
+                            <span class="material-symbols-outlined text-sm">add_business</span>
+                            <span>Thêm Không gian Mới</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 Operational Metric Tiles -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Cụm Hệ thống</span>
+                            <span class="material-symbols-outlined text-primary text-base">hub</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">02 <span class="font-body-sm text-body-sm text-text-muted">Cụm Node</span></span>
+                            <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-1.5 py-0.5 rounded">HÀ NỘI ONLINE</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">Cầu Giấy (Active) • Ba Vì (Standby)</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Phân vùng Không gian</span>
+                            <span class="material-symbols-outlined text-status-telemetry text-base">meeting_room</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">06 <span class="font-body-sm text-body-sm text-text-muted">Khu vực</span></span>
+                            <span class="font-label-code text-label-xs text-status-telemetry bg-status-telemetry/10 px-1.5 py-0.5 rounded">3 TẦNG NHÀ</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">4 Phòng sinh hoạt • 2 Khu kỹ thuật</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">ESP32 Gateways</span>
+                            <span class="material-symbols-outlined text-status-online text-base">router</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-status-online">3 / 3</span>
+                            <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-1.5 py-0.5 rounded">100% HEALTH</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">RTT Trung bình: 14ms (mTLS 1.3)</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Thiết bị Trực thuộc</span>
+                            <span class="material-symbols-outlined text-tertiary text-base">electrical_services</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">18 <span class="font-body-sm text-body-sm text-text-muted">Active</span></span>
+                            <span class="font-label-code text-label-xs text-tertiary bg-tertiary-container/20 px-1.5 py-0.5 rounded">1450W LOAD</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">12 Đèn • 3 Quạt • 3 Cảm biến</div>
+                    </div>
+                </div>
+
+                <!-- Space Filter Tabs & Search Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-md bg-surface-container-low p-space-sm rounded-xl border border-surface-border-subtle">
+                    <div class="flex items-center gap-1 overflow-x-auto scrollbar-none" id="floor-tabs">
+                        <button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-medium transition-all" onclick="filterSpaces('all', this)" type="button">
+                            Tất cả khu vực (6)
+                        </button>
+                        <button class="px-space-md py-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm transition-all" onclick="filterSpaces('floor1', this)" type="button">
+                            Tầng 1 (2)
+                        </button>
+                        <button class="px-space-md py-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm transition-all" onclick="filterSpaces('floor2', this)" type="button">
+                            Tầng 2 (2)
+                        </button>
+                        <button class="px-space-md py-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm transition-all" onclick="filterSpaces('outdoor', this)" type="button">
+                            Sân thượng & Ban công (1)
+                        </button>
+                        <button class="px-space-md py-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm transition-all" onclick="filterSpaces('utility', this)" type="button">
+                            Tủ điện & Kỹ thuật (1)
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-space-xs">
+                        <button class="px-space-md py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-body-sm flex items-center gap-1 transition-colors" onclick="toggleAllLights(false)" type="button">
+                            <span class="material-symbols-outlined text-sm text-status-warm">lightbulb</span>
+                            <span>Tắt Đèn Toàn Nhà</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Space Cards Grid (6 High-Fidelity Interactive Spaces) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-lg" id="spaces-grid">
+                    <!-- Space 1: Phòng khách -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="floor1">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">chair</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Phòng khách</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng 1 • Khu vực tiếp khách</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> ACTIVE
+                                </span>
+                            </div>
+
+                            <!-- Gateway link badge -->
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">ESP32-LivingRoom</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:83:A1:01</span>
+                            </div>
+
+                            <!-- Live Telemetry Badges -->
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">NHIỆT ĐỘ</span>
+                                    <span class="text-on-surface font-bold text-sm">25.8°C</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ĐỘ ẨM</span>
+                                    <span class="text-status-telemetry font-bold text-sm">62% RH</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">CÔNG SUẤT</span>
+                                    <span class="text-status-warm font-bold text-sm">185W</span>
+                                </div>
+                            </div>
+
+                            <!-- Device Chips -->
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (4)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-warm"></span> Đèn LED âm trần (GPIO 16)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-telemetry"></span> Quạt trần PWM (GPIO 18)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-online"></span> Cảm biến PIR
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-outline"></span> Smart Socket TV
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Quick Actions -->
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <div class="flex items-center gap-1">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng khách', 'Đèn LED', this)" type="button">
+                                    <span class="material-symbols-outlined text-sm text-status-warm">lightbulb</span>
+                                    <span>Bật/Tắt Đèn</span>
+                                </button>
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng khách', 'Quạt trần', this)" type="button">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">mode_fan</span>
+                                    <span>Đổi Cấp Quạt</span>
+                                </button>
+                            </div>
+                            <a href="device.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Chi tiết →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Space 2: Phòng Bếp & Ăn -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="floor1">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-status-warm/10 text-status-warm flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">restaurant</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Phòng Bếp & Ăn</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng 1 • Khu vực ẩm & an toàn Gas</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> ACTIVE
+                                </span>
+                            </div>
+
+                            <!-- Gateway link badge -->
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">ESP32-Kitchen-SensorHub</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:A1:BF:84</span>
+                            </div>
+
+                            <!-- Live Telemetry Badges -->
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">NHIỆT ĐỘ</span>
+                                    <span class="text-on-surface font-bold text-sm">28.2°C</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">GAS MQ-2</span>
+                                    <span class="text-status-online font-bold text-sm">42 PPM</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">CÔNG SUẤT</span>
+                                    <span class="text-status-warm font-bold text-sm">320W</span>
+                                </div>
+                            </div>
+
+                            <!-- Device Chips -->
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (5)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-online"></span> Cảm biến Gas MQ-2 (GPIO 34)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-telemetry"></span> Quạt hút khói PWM (GPIO 25)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-warm"></span> Đèn ray nam châm Bếp
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-alarm"></span> Van ngắt gas an toàn
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Quick Actions -->
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <div class="flex items-center gap-1">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng Bếp', 'Quạt hút mùi', this)" type="button">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">air</span>
+                                    <span>Hút khói Bếp</span>
+                                </button>
+                                <button class="p-1.5 rounded-lg bg-status-alarm/10 hover:bg-status-alarm/20 text-status-alarm text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickTestGasAlarm()" type="button">
+                                    <span class="material-symbols-outlined text-sm">campaign</span>
+                                    <span>Test Còi Báo Gas</span>
+                                </button>
+                            </div>
+                            <a href="rule.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Xem Rule →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Space 3: Phòng Ngủ Master -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="floor2">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-status-telemetry/10 text-status-telemetry flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">bed</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Phòng Ngủ Master</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng 2 • Tiện nghi & Nghỉ ngơi</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> ACTIVE
+                                </span>
+                            </div>
+
+                            <!-- Gateway link badge -->
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">ESP32-Bedroom</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:C3:98:12</span>
+                            </div>
+
+                            <!-- Live Telemetry Badges -->
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">NHIỆT ĐỘ</span>
+                                    <span class="text-on-surface font-bold text-sm">24.5°C</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ĐỘ ẨM</span>
+                                    <span class="text-status-telemetry font-bold text-sm">58% RH</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ÁNH SÁNG</span>
+                                    <span class="text-on-surface font-bold text-sm">45 Lux</span>
+                                </div>
+                            </div>
+
+                            <!-- Device Chips -->
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (4)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-telemetry"></span> Điều hòa Daikin IR
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-warm"></span> Rèm cuốn tự động (GPIO 4)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-tertiary"></span> Đèn ngủ Dimmer 2700K
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-online"></span> Cảm biến hiện diện mmWave
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer Quick Actions -->
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <div class="flex items-center gap-1">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng Ngủ Master', 'Rèm cuốn', this)" type="button">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">roller_shades</span>
+                                    <span>Đóng/Mở Rèm</span>
+                                </button>
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng Ngủ Master', 'Chế độ Ngủ', this)" type="button">
+                                    <span class="material-symbols-outlined text-sm text-primary">bedtime</span>
+                                    <span>Chế độ Ngủ</span>
+                                </button>
+                            </div>
+                            <a href="device.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Chi tiết →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Space 4: Phòng Làm việc -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="floor2">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">desk</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Phòng Làm việc</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng 2 • Trạm làm việc & Lab IoT</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> ACTIVE
+                                </span>
+                            </div>
+
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">Node Mạng ESP-NOW (Ext)</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:C3:98:12</span>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">NHIỆT ĐỘ</span>
+                                    <span class="text-on-surface font-bold text-sm">26.0°C</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ĐỘ ẨM</span>
+                                    <span class="text-status-telemetry font-bold text-sm">60% RH</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">CÔNG SUẤT</span>
+                                    <span class="text-status-warm font-bold text-sm">210W</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (2)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-warm"></span> Đèn bàn thông minh CCT
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-primary"></span> Ổ cắm máy tính Workstation
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickToggleRoom('Phòng Làm việc', 'Đèn bàn', this)" type="button">
+                                <span class="material-symbols-outlined text-sm text-status-warm">wb_incandescent</span>
+                                <span>Bật Đèn Tập Trung</span>
+                            </button>
+                            <a href="device.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Chi tiết →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Space 5: Sân thượng & Ban công -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="outdoor">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-status-online/10 text-status-online flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">yard</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Sân thượng & Ban công</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng 3 • Vườn sinh thái & Năng lượng</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> ACTIVE
+                                </span>
+                            </div>
+
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">ESP32-Outdoor-Mesh</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:FF:33:10</span>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">NHIỆT ĐỘ NGOÀI</span>
+                                    <span class="text-on-surface font-bold text-sm">31.4°C</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ẨM ĐẤT</span>
+                                    <span class="text-status-online font-bold text-sm">68%</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ÁNH SÁNG</span>
+                                    <span class="text-status-warm font-bold text-sm">8,200 Lux</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (2)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-telemetry"></span> Van tưới Solenoid (GPIO 13)
+                                    </span>
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-warm"></span> Đèn sân vườn Solar (GPIO 12)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="quickWaterPlants(this)" type="button">
+                                <span class="material-symbols-outlined text-sm text-status-telemetry">water_drop</span>
+                                <span>Tưới Cây 5 Phút</span>
+                            </button>
+                            <a href="device.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Chi tiết →
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Space 6: Tủ điện & Kỹ thuật -->
+                    <div class="space-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group" data-category="utility">
+                        <div>
+                            <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                <div class="flex items-center gap-space-sm">
+                                    <div class="w-10 h-10 rounded-xl bg-status-warm/10 text-status-warm flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                        <span class="material-symbols-outlined text-xl">electric_meter</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Tủ điện & Kỹ thuật</h3>
+                                        <span class="font-label-code text-label-xs text-text-muted">Tầng hầm • EVN Meter & Modbus RS485</span>
+                                    </div>
+                                </div>
+                                <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-status-online"></span> STANDBY
+                                </span>
+                            </div>
+
+                            <div class="mt-space-md p-space-sm rounded-xl bg-surface-container flex items-center justify-between text-xs font-label-code">
+                                <div class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-sm text-status-online">router</span>
+                                    <span class="text-on-surface font-medium">ESP32-MainMeter</span>
+                                </div>
+                                <span class="text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">48:E7:29:11:44:88</span>
+                            </div>
+
+                            <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">ĐIỆN ÁP PHA</span>
+                                    <span class="text-on-surface font-bold text-sm">228.4V</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">DÒNG TẢI</span>
+                                    <span class="text-status-warm font-bold text-sm">14.2A</span>
+                                </div>
+                                <div class="p-2 rounded-lg bg-surface-container">
+                                    <span class="text-text-muted block text-label-xs">TẦN SỐ</span>
+                                    <span class="text-on-surface font-bold text-sm">50.0 Hz</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-space-md space-y-1.5">
+                                <div class="text-label-xs font-label-code text-text-muted uppercase">Thiết bị đang gán (1)</div>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <span class="px-2 py-1 rounded bg-surface-container text-xs text-on-surface font-body-sm flex items-center gap-1">
+                                        <span class="w-2 h-2 rounded-full bg-status-online"></span> Công tơ điện tử Modbus RTU RS485
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                            <a href="stat.html" class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm text-primary">analytics</span>
+                                <span>Phân tích EVN kWh</span>
+                            </a>
+                            <a href="stat.html" class="text-primary hover:underline text-xs font-label-code font-semibold flex items-center">
+                                Xem Logs →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for "Thêm Không gian Mới" -->
+            <div id="add-space-modal" class="fixed inset-0 z-[9993] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+                <div class="bg-surface-container-low border border-surface-border-subtle rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col">
+                    <div class="p-space-lg bg-surface-container border-b border-surface-border-subtle flex items-center justify-between">
+                        <div class="flex items-center gap-space-sm">
+                            <div class="w-9 h-9 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center">
+                                <span class="material-symbols-outlined text-lg">meeting_room</span>
+                            </div>
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Tạo Phân Vùng Không Gian Mới</h3>
+                                <p class="font-body-sm text-xs text-text-muted">Khai báo phòng/khu vực và liên kết với Gateway ESP32</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAddSpaceModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg" type="button">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+                    <form id="add-space-form" class="p-space-lg space-y-space-md" onsubmit="handleCreateSpace(event)">
+                        <div>
+                            <label class="font-body-sm text-xs text-text-muted block mb-1">Tên không gian / Phòng *</label>
+                            <input id="space-name-input" required placeholder="Ví dụ: Phòng tắm Master, Garage ô tô..." class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary" />
+                        </div>
+                        <div class="grid grid-cols-2 gap-space-md">
+                            <div>
+                                <label class="font-body-sm text-xs text-text-muted block mb-1">Vị trí tầng *</label>
+                                <select id="space-floor-input" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                    <option value="floor1">Tầng 1</option>
+                                    <option value="floor2">Tầng 2</option>
+                                    <option value="floor3">Tầng 3</option>
+                                    <option value="basement">Tầng hầm</option>
+                                    <option value="outdoor">Ngoại cảnh / Sân vườn</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="font-body-sm text-xs text-text-muted block mb-1">Gateway phụ trách *</label>
+                                <select id="space-gateway-input" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                    <option value="ESP32-LivingRoom">ESP32-LivingRoom (Cầu Giấy)</option>
+                                    <option value="ESP32-Kitchen-SensorHub">ESP32-Kitchen-SensorHub</option>
+                                    <option value="ESP32-Bedroom">ESP32-Bedroom</option>
+                                    <option value="ESP32-Outdoor-Mesh">ESP32-Outdoor-Mesh</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="font-body-sm text-xs text-text-muted block mb-1">Mục đích sử dụng & Phân loại</label>
+                            <select id="space-type-input" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                <option value="living">Sinh hoạt chung / Chiếu sáng & Quạt</option>
+                                <option value="wet">Khu vực ẩm ướt / Cảnh báo tràn nước</option>
+                                <option value="safety">Khu vực an toàn Gas / Báo cháy</option>
+                                <option value="hvac">Khu vực điều hòa nhiệt độ HVAC</option>
+                            </select>
+                        </div>
+                        <div class="pt-2 flex items-center justify-end gap-space-sm">
+                            <button type="button" onclick="closeAddSpaceModal()" class="px-space-md py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-sm transition-colors">
+                                Hủy bỏ
+                            </button>
+                            <button type="submit" id="submit-space-btn" class="px-space-lg py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-sm font-semibold transition-all shadow-md flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">save</span>
+                                <span>Tạo Không Gian & Lưu Topology</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Page Specific Script -->
+    <script>
+        function filterSpaces(category, btn) {
+            const tabs = document.querySelectorAll('#floor-tabs button');
+            tabs.forEach(b => {
+                b.className = 'px-space-md py-1.5 rounded-lg text-text-muted hover:text-on-surface hover:bg-surface-container font-body-sm text-body-sm transition-all';
+            });
+            btn.className = 'px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-body-sm text-body-sm font-medium transition-all shadow-sm';
+
+            const cards = document.querySelectorAll('.space-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function toggleAllLights(turnOn) {
+            if (window.showToast) {
+                window.showToast('Lệnh Toàn Nhà', 'Đã phát lệnh MQTT tắt toàn bộ 12 bóng đèn trong các phòng.', 'warning');
+            }
+        }
+
+        function quickToggleRoom(room, dev, btn) {
+            if (window.showToast) {
+                window.showToast(room, `Đã đảo trạng thái hoạt động: ${dev}`, 'success');
+            }
+        }
+
+        function quickWaterPlants(btn) {
+            btn.disabled = true;
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span><span>Đang mở van...</span>';
+            if (window.showToast) {
+                window.showToast('Van tưới Solenoid', 'Đã kích hoạt van tưới tự động sân thượng (Thời lượng: 5 phút).', 'success');
+            }
+            setTimeout(() => {
+                btn.innerHTML = orig;
+                btn.disabled = false;
+            }, 1500);
+        }
+
+        function quickTestGasAlarm() {
+            if (window.showToast) {
+                window.showToast('Test Còi Gas', 'Đã kích hoạt còi cảnh báo 110dB phòng Bếp trong 3 giây.', 'alarm');
+            }
+        }
+
+        function simulateScanTopology() {
+            if (window.showToast) {
+                window.showToast('Quét Mesh Topology', 'Đang gửi gói tin khám phá mDNS & ESP-NOW trên tần số 2.4GHz...', 'info');
+                setTimeout(() => {
+                    window.showToast('Quét Hoàn Tất', 'Đã xác thực 3 Node ESP32 và 6 không gian vật lý. 0 xung đột MAC.', 'success');
+                }, 1400);
+            }
+        }
+
+        function openAddSpaceModal() {
+            const modal = document.getElementById('add-space-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                document.getElementById('space-name-input').focus();
+            }
+        }
+
+        function closeAddSpaceModal() {
+            const modal = document.getElementById('add-space-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function handleCreateSpace(e) {
+            e.preventDefault();
+            const name = document.getElementById('space-name-input').value;
+            const gw = document.getElementById('space-gateway-input').value;
+            const btn = document.getElementById('submit-space-btn');
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span><span>Đang cập nhật Topology...</span>';
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm">save</span><span>Tạo Không Gian & Lưu Topology</span>';
+                closeAddSpaceModal();
+                document.getElementById('add-space-form').reset();
+                if (window.showToast) {
+                    window.showToast('Không Gian Mới', `Đã tạo thành công "${name}" và liên kết tới Gateway ${gw}!`, 'success');
+                }
+            }, 800);
+        }
+    </script>
+    <!-- Core Shared Mock App Script -->
+    <script src="mock-app.js"></script>
+</body>
+</html>

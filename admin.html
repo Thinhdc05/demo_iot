@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#001d35", "surface-container-highest": "#343536", "on-tertiary-fixed-variant": "#454a00", "on-background": "#e3e2e3", "surface-container": "#1f2021", "primary": "#bdc2ff", "secondary-container": "#274b6e", "on-primary": "#121f8b", "status-alarm": "#F43F5E", "primary-fixed-dim": "#bdc2ff", "on-primary-fixed-variant": "#2e3aa2", "surface-border": "#1E2229", "inverse-surface": "#e3e2e3", "on-surface-variant": "#c6c5d5", "tertiary-fixed": "#dfed1a", "background": "#121315", "surface-border-subtle": "rgba(255, 255, 255, 0.08)", "on-tertiary-fixed": "#1b1d00", "error-container": "#93000a", "outline-variant": "#454652", "surface-bright": "#38393a", "secondary-fixed": "#d0e4ff", "status-online": "#10B981", "on-error": "#690005", "error": "#ffb4ab", "on-secondary-fixed-variant": "#25496c", "on-secondary-container": "#99bbe4", "tertiary": "#c3d000", "on-error-container": "#ffdad6", "on-surface": "#e3e2e3", "secondary": "#a7caf3", "on-primary-fixed": "#000965", "text-muted": "#8B93A1", "tertiary-container": "#717900", "surface-container-lowest": "#0d0e0f", "secondary-fixed-dim": "#a7caf3", "surface-variant": "#343536", "primary-fixed": "#dfe0ff", "outline": "#908f9e", "status-warm": "#F59E0B", "inverse-primary": "#4854bb", "surface-container-low": "#1b1c1d", "surface-dim": "#121315", "surface-container-high": "#292a2b", "inverse-on-surface": "#303032", "on-tertiary": "#2f3300", "status-telemetry": "#0EA5E9", "on-tertiary-container": "#fcffc3", "primary-container": "#5e6ad2", "on-secondary": "#063254", "tertiary-fixed-dim": "#c3d000", "surface": "#121315", "on-primary-container": "#fdfaff", "surface-tint": "#bdc2ff" }, "borderRadius": { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" }, "spacing": { "space-lg": "1rem", "space-2xl": "2.5rem", "space-sm": "0.5rem", "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem", "space-xl": "1.5rem", "space-md": "0.75rem", "space-xs": "0.25rem", "gutter-desktop": "1.5rem" }, "fontFamily": { "headline-lg": ["Geist"], "body-lg": ["Inter"], "display-lg-mobile": ["Geist"], "label-metric": ["JetBrains Mono"], "headline-sm": ["Geist"], "display-lg": ["Geist"], "label-code": ["JetBrains Mono"], "body-sm": ["Inter"], "label-xs": ["JetBrains Mono"] }, "fontSize": { "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "600"}], "body-lg": ["15px", {"lineHeight": "24px", "fontWeight": "400"}], "display-lg-mobile": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "600"}], "label-metric": ["20px", {"lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "600"}], "headline-sm": ["18px", {"lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "500"}], "display-lg": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.03em", "fontWeight": "600"}], "label-code": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}], "body-sm": ["13px", {"lineHeight": "20px", "fontWeight": "400"}], "label-xs": ["10px", {"lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500"}] } } } };</script></head><body class="bg-background font-body-sm text-body-sm text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="p-space-lg flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm"><img alt="UPJ IoT Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa7FvUhwtzEtCme7Vh08A-UB_XuFJpRjauhlSz4d7zvfOzq3UuKu8RVgzUrQOZF9WcdJOtShcMTB2azdqehLBrJk7C-JIE1S5rPJGOhnh6a7SGlRZ8-BAAj_iHr5ZXx38hLcZNdjPfjmq7uoBRcZrYwh2uW2Bb_J7nKmG0BR1fInLlrYDvz9xzBX44mHUxNSu6WSjo_ZLcuCABQBPG7U5qVoSfkVCtRzt6vo_zfFgMlbqowfI06VQuzQ"/><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">UPJ IoT</span><span class="font-label-xs text-label-xs text-primary bg-primary-container/20 px-space-xs py-0.5 rounded-lg mt-1 font-label-code">ENTERPRISE v1.2</span></div></div><span class="material-symbols-outlined text-outline text-lg">dns</span></div><div class="px-space-lg pb-space-md"><div class="relative bg-surface-container p-space-sm rounded-xl"><div class="text-label-xs font-label-xs text-text-muted uppercase mb-1 tracking-wider">Khu vực điều khiển</div><div class="flex items-center justify-between cursor-pointer"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-status-telemetry text-sm">apartment</span><select class="bg-transparent font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[170px] focus:outline-none cursor-pointer"><option class="bg-surface-container-high text-on-surface" value="cau-giay">Nhà phố Cầu Giấy (Hà Nội)</option><option class="bg-surface-container-high text-on-surface" value="ba-vi">Trang trại Ba Vì</option></select></div><span class="material-symbols-outlined text-outline text-sm">unfold_more</span></div></div></div><nav class="flex-1 px-space-md space-y-1 overflow-y-auto" data-active-classes="bg-primary-container text-on-primary-container font-medium rounded-xl"><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="overview" href="#"><span class="font-body-sm text-body-sm">Tổng quan</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="systems-spaces" href="#"><span class="font-body-sm text-body-sm">Quản lý Hệ thống &amp; Không gian</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="devices" href="#"><span class="font-body-sm text-body-sm">Bảng điều khiển Thiết bị</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="gateways" href="#"><span class="font-body-sm text-body-sm">Cổng điều khiển ESP32</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="automations" href="#"><span class="font-body-sm text-body-sm">Kịch bản Tự động hóa</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="energy-logs" href="#"><span class="font-body-sm text-body-sm">Thống kê Năng lượng &amp; Nhật ký</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="ai-assistant" href="#"><span class="font-body-sm text-body-sm">Trợ lý AI Cấu hình</span></a><a class="flex items-center px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="profile" href="#"><span class="font-body-sm text-body-sm">Hồ sơ Cá nhân</span></a><a aria-current="page" class="flex items-center px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-medium rounded-xl" data-path="members" href="#"><span class="font-body-sm text-body-sm">Quản trị Thành viên &amp; Phân quyền</span></a></nav><div class="p-space-md bg-surface-container-lowest mx-space-md mb-space-md rounded-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1oy3PpcULmLgElidaoZMmoq9X6I6s4UP1ogWq4vwOp_6gnpT3O63eXG0AiyPE-o6hkzabIQ58IEl3KCYindgQOw20eQV9NsEVCN25yET8fMA8RCvmR2qAxzwjqqe0zxTawovG4JFcixc4O1MqVe1VmDesQfdYI8SOCBlijDBqrD54BIZlGa7duVvQ2_r8v4BlFZvhWAtp95bdxJW60-or_3DD-hSL53qm8i3vcFW9Nb60gho5Qxtj2Q"/><div class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-status-online"></div></div><div class="flex flex-col"><span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[110px]">Nguyễn Minh Tuấn</span><span class="font-label-xs text-label-xs text-tertiary uppercase">SUPER_ADMIN</span></div></div><button class="text-outline hover:text-status-alarm transition-colors" type="button"><span class="material-symbols-outlined text-lg">logout</span></button></div></aside><div class="pl-72 min-h-screen flex flex-col"><header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs text-text-muted font-body-sm text-body-sm"><span class="hover:text-on-surface cursor-pointer">Hệ thống Cầu Giấy</span><span class="material-symbols-outlined text-sm">chevron_right</span><span class="text-on-surface font-medium">Bảng điều khiển</span></div></div><div class="flex items-center gap-space-md"><div class="relative"><span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-sm">search</span><input class="bg-surface-container text-on-surface placeholder:text-text-muted pl-8 pr-12 py-1 rounded-xl text-body-sm font-body-sm focus:outline-none w-64 h-8" placeholder="Tìm thiết bị, MAC, GPIO..." type="text"/><kbd class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code text-label-xs text-outline bg-surface-container-high px-1 py-0.5 rounded">⌘K</kbd></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container font-label-code text-label-xs text-text-muted"><span class="w-2 h-2 rounded-full bg-status-online animate-pulse"></span><span>MQTT: ws://broker.upj.io:8883</span><span class="text-status-online font-bold ml-1">ONLINE 100%</span></div><div class="relative cursor-pointer"><span class="material-symbols-outlined text-outline hover:text-on-surface transition-colors">notifications</span><span class="absolute -top-1 -right-1 bg-status-alarm text-on-surface font-label-code text-label-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">3</span></div><button class="text-outline hover:text-on-surface transition-colors p-1" type="button"><span class="material-symbols-outlined text-lg">dark_mode</span></button><button class="flex items-center gap-space-xs bg-primary-container hover:bg-surface-container-high text-on-primary-container px-space-md py-1.5 rounded-xl font-body-sm text-body-sm font-medium transition-colors" type="button"><span class="material-symbols-outlined text-sm">add</span><span>Thêm thiết bị</span></button></div></header><main class="w-full pt-16 bg-surface px-space-xl flex-1"><div class="flex flex-col w-full pb-space-2xl space-y-space-xl">
+<!-- Top Level Stat Banner & Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pt-space-md">
+<div class="flex flex-col space-y-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Quản trị Thành viên &amp; Phân quyền (RBAC &amp; ACL)</span>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-container/20 text-primary font-label-code text-label-xs font-semibold">SECURITY LAYER 3</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted flex items-center gap-space-xs">
+<span>5 Thành viên đã mời</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="text-on-surface font-medium">2 Quản trị viên</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span>3 Thành viên gia đình</span>
+<span class="w-1 h-1 rounded-full bg-outline"></span>
+<span class="font-label-code text-label-xs text-status-online">TOKEN TTL: 48H</span>
+</p>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-sm text-body-sm transition-colors shadow-sm" type="button">
+<span class="material-symbols-outlined text-sm">history</span>
+<span>Audit Logs</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-body-sm font-medium transition-all shadow-md" id="open-invite-modal" type="button">
+<span class="material-symbols-outlined text-sm">person_add</span>
+<span>+ Mời Thành viên Mới</span>
+</button>
+</div>
+</div>
+<!-- Operational Metric Tiles -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-label-code text-label-xs uppercase tracking-wider">Phiên hoạt động</span>
+<span class="material-symbols-outlined text-status-online text-sm">sensors</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-label-metric text-label-metric text-on-surface">03 <span class="font-body-sm text-body-sm text-text-muted">/ 05</span></span>
+<span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-1.5 py-0.5 rounded">60% ONLINE</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-label-code text-label-xs uppercase tracking-wider">Lượt xác thực mTLS</span>
+<span class="material-symbols-outlined text-status-telemetry text-sm">verified_user</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-label-metric text-label-metric text-on-surface">1,429</span>
+<span class="font-label-code text-label-xs text-status-telemetry bg-status-telemetry/10 px-1.5 py-0.5 rounded">24H CYCLE</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-label-code text-label-xs uppercase tracking-wider">Phân vùng cấp phát</span>
+<span class="material-symbols-outlined text-tertiary text-sm">grid_view</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-label-metric text-label-metric text-on-surface">06 <span class="font-body-sm text-body-sm text-text-muted">Không gian</span></span>
+<span class="font-label-code text-label-xs text-tertiary bg-tertiary-container/30 px-1.5 py-0.5 rounded">ISOLATED</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm">
+<div class="flex items-center justify-between text-text-muted">
+<span class="font-label-code text-label-xs uppercase tracking-wider">Vi phạm truy cập (ACL)</span>
+<span class="material-symbols-outlined text-status-warm text-sm">shield_locked</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-label-metric text-label-metric text-on-surface">0 <span class="font-body-sm text-body-sm text-text-muted">cảnh báo</span></span>
+<span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-1.5 py-0.5 rounded">NORMAL</span>
+</div>
+</div>
+</div>
+<!-- Security Policy Callout -->
+<div class="relative overflow-hidden p-space-md rounded-xl bg-surface-container-high shadow-sm">
+<div class="flex items-start gap-space-md relative z-10">
+<div class="w-8 h-8 rounded-lg bg-status-alarm/20 text-status-alarm flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-base">gite</span>
+</div>
+<div class="flex-1 flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm">
+<div>
+<span class="font-label-code text-label-xs text-status-alarm font-bold uppercase tracking-wider block">Thiết lập An ninh Phần cứng</span>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5">
+<strong class="font-medium">Chính sách bảo mật:</strong> Người dùng vai trò <span class="font-label-code text-label-xs bg-surface-container-lowest px-1 py-0.5 rounded text-secondary">VIEWER</span> và <span class="font-label-code text-label-xs bg-surface-container-lowest px-1 py-0.5 rounded text-primary">MEMBER</span> không thể truy cập bảng Cấu hình GPIO chân cứng hoặc nạp OTA để bảo vệ an toàn vật lý và mạch điện thiết bị.
+          </p>
+</div>
+<div class="shrink-0 flex items-center gap-space-sm">
+<span class="font-label-code text-label-xs text-text-muted bg-surface-container px-2 py-1 rounded">RULE-SEC-09A</span>
+<button class="text-primary hover:text-on-surface font-body-sm text-body-sm transition-colors flex items-center gap-space-xs" type="button">
+<span>Chi tiết chính sách</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Member Management Table Container -->
+<div class="flex flex-col rounded-xl bg-surface-container-low overflow-hidden shadow-sm">
+<div class="p-space-md bg-surface-container flex flex-col sm:flex-row sm:items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="font-headline-sm text-headline-sm text-on-surface">Danh sách Thành viên được cấp quyền</span>
+<span class="px-space-xs py-0.5 bg-surface-container-high rounded text-text-muted font-label-code text-label-xs">4 active / 1 suspended</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-sm">filter_alt</span>
+<select class="bg-surface-container-high text-on-surface font-body-sm text-body-sm pl-8 pr-6 py-1.5 rounded-xl appearance-none focus:outline-none cursor-pointer">
+<option value="all">Tất cả vai trò</option>
+<option value="admin">SUPER_ADMIN</option>
+<option value="member">MEMBER</option>
+<option value="viewer">VIEWER</option>
+</select>
+</div>
+<button class="p-1.5 rounded-xl bg-surface-container-high hover:bg-surface-bright text-text-muted hover:text-on-surface transition-colors" title="Làm mới" type="button">
+<span class="material-symbols-outlined text-sm">refresh</span>
+</button>
+</div>
+</div>
+<!-- Responsive Table -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-sm text-body-sm min-w-[840px]">
+<thead>
+<tr class="bg-surface-container-lowest text-text-muted font-label-code text-label-xs uppercase">
+<th class="py-space-sm px-space-md font-medium">Thành viên</th>
+<th class="py-space-sm px-space-md font-medium">Vai trò</th>
+<th class="py-space-sm px-space-md font-medium">Phạm vi Không gian (ACL)</th>
+<th class="py-space-sm px-space-md font-medium">Trạng thái</th>
+<th class="py-space-sm px-space-md font-medium">Lần hoạt động cuối</th>
+<th class="py-space-sm px-space-md font-medium text-right">Hành động</th>
+</tr>
+</thead>
+<tbody class="text-on-surface">
+<!-- Row 1: Nguyễn Minh Tuấn -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Cyberpunk style tech profile avatar with slight neon illumination and neutral expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkGyCgItXlWXDxs3DOw2xUIiRBpcN4bjto5ArJHwBZFhnV669oByYR2nBZdDhTHOnif-1huM9sxxt8dJb9V8aKe5NM-WaMyYgMHDK30Tg-QMjCrVkFu22kexI69gCS-Oqs_RxjwKyFyoeTxsvgYZ1poz8RWTfT6kH-4YYWj84_v48StnAvh4GZk5WPPokq8x2yZI3m9ruSK_wsIpcM2RYsFc_7JNg5BLM9IlTn9y-kxl2QmmdEqBLPYA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-status-online ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-medium text-on-surface">Nguyễn Minh Tuấn</span>
+<span class="font-label-code text-label-xs px-1.5 py-0.2 rounded bg-primary-container text-on-primary-container">Bạn</span>
+</div>
+<span class="font-label-code text-label-xs text-text-muted">tuan.nguyen@upj.io</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 font-label-code text-label-xs px-2 py-0.5 rounded-full bg-status-alarm/15 text-status-alarm font-semibold">
+<span class="material-symbols-outlined text-xs">admin_panel_settings</span>
+                SUPER_ADMIN
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs font-label-code text-label-xs text-primary">
+<span class="material-symbols-outlined text-sm">all_inclusive</span>
+<span>Toàn hệ thống (Root ACL)</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-code text-label-xs text-status-online">
+<span class="w-1.5 h-1.5 rounded-full bg-status-online"></span>
+                Online
+              </span>
+</td>
+<td class="py-space-md px-space-md font-label-code text-label-xs text-text-muted">
+              Đang hoạt động
+            </td>
+<td class="py-space-md px-space-md text-right">
+<span class="font-label-code text-label-xs text-outline italic">Chủ tài khoản</span>
+</td>
+</tr>
+<!-- Row 2: Trần Thị Lan Hương -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Portrait photo of a young modern Vietnamese female professional with warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmV-yWg1N2SY8Yjr5og7R-0BufgiDlHKlM6i-eyvCCq7Twc9YtFLyGPJEzviHmvhan_fwF8GrKVbzvbHtjdmyuXJjqa8_S7Ct4w0AmibZONYwgT0KUj-LrRBa7aM5z7b9_7fNBpitRDtiTNVxzLZBhzx4P-w9EBjLhtBM-RdxQjWGRGis6mPFrkN9HuUavdNmiebRtpYp9AvuL0JvnD3MdL0Y8yNrpDkTLD9ogoWxS4bdboZRSFJ6QGg"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-text-muted ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Trần Thị Lan Hương</span>
+<span class="font-label-code text-label-xs text-text-muted">huong.tran@gmail.com</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 font-label-code text-label-xs px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-medium">
+<span class="material-symbols-outlined text-xs">family_restroom</span>
+                MEMBER
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-wrap gap-1">
+<span class="font-label-code text-label-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Phòng khách</span>
+<span class="font-label-code text-label-xs px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Phòng bếp</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-code text-label-xs text-status-online">
+<span class="w-1.5 h-1.5 rounded-full bg-status-online"></span>
+                Hoạt động
+              </span>
+</td>
+<td class="py-space-md px-space-md font-label-code text-label-xs text-text-muted">
+              12 phút trước
+            </td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-space-xs">
+<button class="p-1 rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Đổi quyền" type="button">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-status-alarm hover:bg-surface-container-high transition-colors" title="Khóa tài khoản" type="button">
+<span class="material-symbols-outlined text-base">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Lê Hoàng Nam -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="relative">
+<img class="w-9 h-9 rounded-full object-cover" data-alt="Technical engineer portrait with glasses working inside dark IoT control room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJ5O6SFfEXcA6TDl_fY0Y8tYbm_Z3w1gCrw0oBeH3QpfsZF7BjmJYtp_M-tPC5paW95aJzCvz3vyjLST_uJNSP7j1FSjCIJCSsEdtE6ZIpqUFhZ0809h23hYNdbseVu9I8Gu6SPnB4pbo7P-AigEtwLb8_K5rlXwRMR4wCpEmhIj0158RE8NVNb-LJFUHKtiis9Nv0CmC-0tbN6jGQ0UBCPxS8C5F5grIOzAfporw1g9fD6hKwyZvotA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-text-muted ring-2 ring-surface-container-low"></span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-medium text-on-surface">Lê Hoàng Nam</span>
+<span class="font-label-code text-label-xs px-1 rounded bg-surface-container-high text-tertiary">Kỹ thuật viên</span>
+</div>
+<span class="font-label-code text-label-xs text-text-muted">nam.le@smarttech.vn</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 font-label-code text-label-xs px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary font-medium">
+<span class="material-symbols-outlined text-xs">build</span>
+                MEMBER
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-xs font-label-code text-label-xs text-status-telemetry">
+<span class="material-symbols-outlined text-sm">memory</span>
+<span>Toàn quyền thiết bị ESP32</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-code text-label-xs text-status-online">
+<span class="w-1.5 h-1.5 rounded-full bg-status-online"></span>
+                Hoạt động
+              </span>
+</td>
+<td class="py-space-md px-space-md font-label-code text-label-xs text-text-muted">
+              Hôm qua 18:42
+            </td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-space-xs">
+<button class="p-1 rounded text-outline hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Đổi quyền" type="button">
+<span class="material-symbols-outlined text-base">tune</span>
+</button>
+<button class="p-1 rounded text-outline hover:text-status-alarm hover:bg-surface-container-high transition-colors" title="Khóa tài khoản" type="button">
+<span class="material-symbols-outlined text-base">lock</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Khách thuê nhà -->
+<tr class="hover:bg-surface-container/60 transition-colors opacity-75">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest text-outline flex items-center justify-center font-label-code text-label-xs font-bold">
+                  G
+                </div>
+<div class="flex flex-col">
+<span class="font-medium text-on-surface">Khách thuê nhà (Guest)</span>
+<span class="font-label-code text-label-xs text-text-muted">guest_temp_920@homestay.vn</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1 font-label-code text-label-xs px-2 py-0.5 rounded-full bg-surface-container-high text-outline-variant font-medium">
+<span class="material-symbols-outlined text-xs">visibility</span>
+                VIEWER
+              </span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="font-label-code text-label-xs text-status-warm bg-status-warm/10 px-2 py-0.5 rounded">Giới hạn 24 giờ</span>
+</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center gap-1.5 font-label-code text-label-xs text-status-alarm font-medium">
+<span class="w-1.5 h-1.5 rounded-full bg-status-alarm"></span>
+                Đang khóa
+              </span>
+</td>
+<td class="py-space-md px-space-md font-label-code text-label-xs text-text-muted">
+              3 ngày trước
+            </td>
+<td class="py-space-md px-space-md text-right">
+<div class="inline-flex items-center gap-space-xs">
+<button class="p-1 rounded text-status-online hover:bg-surface-container-high transition-colors" title="Mở khóa tài khoản" type="button">
+<span class="material-symbols-outlined text-base">lock_open</span>
+</button>
+<button class="p-1 rounded text-status-alarm hover:bg-surface-container-high transition-colors" title="Thu hồi quyền hoàn toàn" type="button">
+<span class="material-symbols-outlined text-base">delete_forever</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Stats / Pagination Info -->
+<div class="px-space-md py-space-sm bg-surface-container-lowest flex items-center justify-between text-text-muted font-label-code text-label-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-sm">lock_clock</span>
+<span>Chính sách đổi Token định kỳ 30 ngày kích hoạt</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<span>Hiển thị 4 / 4 tài khoản</span>
+</div>
+</div>
+</div>
+<!-- Role Hierarchy & ACL Documentation Panel -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs mb-space-xs">
+<span class="w-2 h-2 rounded-full bg-status-alarm"></span>
+<span class="font-label-code text-label-xs text-status-alarm font-bold">CẤP ĐỘ: SUPER_ADMIN</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+          Toàn quyền kiểm soát phần cứng. Thay đổi ánh xạ chân GPIO, cập nhật firmware OTA qua MQTT, reset bridge ESP32 và thêm/xóa thành viên.
+        </p>
+</div>
+<span class="font-label-code text-label-xs text-text-muted mt-space-md">Quyền tối cao • Dành cho kỹ sư hệ thống</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs mb-space-xs">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-code text-label-xs text-secondary font-bold">CẤP ĐỘ: MEMBER</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+          Điều khiển thiết bị gia dụng trong các không gian được cấp phép, nhận thông báo sự cố, xem luồng RTSP camera an ninh và nhật ký trạng thái.
+        </p>
+</div>
+<span class="font-label-code text-label-xs text-text-muted mt-space-md">Quyền tiêu chuẩn • Dành cho thành viên gia đình</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-space-xs mb-space-xs">
+<span class="w-2 h-2 rounded-full bg-text-muted"></span>
+<span class="font-label-code text-label-xs text-text-muted font-bold">CẤP ĐỘ: VIEWER</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+          Chỉ xem số liệu telemetry (nhiệt độ, công suất, ẩm độ). Không có quyền kích hoạt relay, không được can thiệp kịch bản tự động hóa.
+        </p>
+</div>
+<span class="font-label-code text-label-xs text-text-muted mt-space-md">Quyền chỉ đọc • Dành cho khách hoặc bảo trì nhanh</span>
+</div>
+</div>
+<!-- Slide-out Drawer / Modal Backdrop for Invite & Assign Roles -->
+<div class="fixed inset-0 bg-background/80 backdrop-blur-md z-50 flex justify-end transition-opacity duration-300 hidden" id="invite-modal-backdrop">
+<!-- Right Drawer Content -->
+<div class="w-full max-w-xl bg-surface-container-low h-full flex flex-col shadow-2xl overflow-y-auto" id="invite-drawer">
+<!-- Drawer Header -->
+<div class="p-space-lg bg-surface-container flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-primary-container/20 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-base">person_add</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm text-on-surface font-semibold block">Mời Thành viên &amp; Gán Quyền</span>
+<span class="font-label-code text-label-xs text-text-muted">UPJ-RBAC-INVITE-FLOW</span>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface p-1 rounded-lg hover:bg-surface-container-high transition-colors" id="close-invite-modal" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+<!-- Drawer Form Body -->
+<div class="p-space-lg space-y-space-xl flex-1">
+<!-- 1. Email Input -->
+<div class="space-y-space-xs">
+<label class="block font-label-code text-label-xs uppercase text-text-muted">Email Người nhận / Tài khoản UPJ IoT</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-base">mail</span>
+<input class="w-full bg-surface-container text-on-surface font-body-sm text-body-sm pl-10 pr-space-md py-2 rounded-xl focus:outline-none focus:bg-surface-container-high placeholder:text-text-muted" placeholder="vi_du@domain.vn" type="email"/>
+</div>
+<span class="font-label-code text-label-xs text-text-muted">Hệ thống sẽ gửi mã kích hoạt có hiệu lực trong 48 giờ.</span>
+</div>
+<!-- 2. Role Selector (Granular Card Choice) -->
+<div class="space-y-space-sm">
+<label class="block font-label-code text-label-xs uppercase text-text-muted">Chọn Cấp độ Vai trò (Role Definition)</label>
+<div class="grid grid-cols-1 gap-space-sm">
+<!-- SUPER_ADMIN Card -->
+<label class="flex items-start gap-space-sm p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer">
+<input class="mt-1 accent-primary" name="rbac_role" type="radio" value="SUPER_ADMIN"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-xs font-bold text-status-alarm">SUPER_ADMIN</span>
+<span class="font-label-code text-label-xs text-text-muted">Toàn quyền Root</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Toàn quyền cấu hình GPIO, flash firmware OTA, gán gateway và cấu hình hạ tầng mạng MQTT broker.
+                </p>
+</div>
+</label>
+<!-- MEMBER Card -->
+<label class="flex items-start gap-space-sm p-space-md rounded-xl bg-surface-container-high hover:bg-surface-bright transition-all cursor-pointer">
+<input checked="" class="mt-1 accent-primary" name="rbac_role" type="radio" value="MEMBER"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-xs font-bold text-secondary">MEMBER</span>
+<span class="font-label-code text-label-xs text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">Khuyên dùng</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface mt-1">
+                  Điều khiển thiết bị trong không gian được cấp phép, xem camera &amp; nhật ký vận hành thời gian thực.
+                </p>
+</div>
+</label>
+<!-- VIEWER Card -->
+<label class="flex items-start gap-space-sm p-space-md rounded-xl bg-surface-container hover:bg-surface-container-high transition-all cursor-pointer">
+<input class="mt-1 accent-primary" name="rbac_role" type="radio" value="VIEWER"/>
+<div class="flex-1">
+<div class="flex items-center justify-between">
+<span class="font-label-code text-label-xs font-bold text-outline">VIEWER</span>
+<span class="font-label-code text-label-xs text-text-muted">Chỉ đọc</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                  Chỉ xem trạng thái telemetry, không được bật tắt rơ-le hoặc thay đổi rule kịch bản tự động hóa.
+                </p>
+</div>
+</label>
+</div>
+</div>
+<!-- 3. Space ACL Granular Access -->
+<div class="space-y-space-sm">
+<div class="flex items-center justify-between">
+<label class="block font-label-code text-label-xs uppercase text-text-muted">Phân quyền Không gian (Granular Space ACL)</label>
+<span class="font-label-code text-label-xs text-tertiary">3 KHÔNG GIAN KHẢ DỤNG</span>
+</div>
+<div class="p-space-md rounded-xl bg-surface-container space-y-space-md">
+<!-- Full System Toggle -->
+<label class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-base">domain</span>
+<div class="flex flex-col">
+<span class="font-body-sm text-body-sm text-on-surface font-medium">Toàn bộ hệ thống</span>
+<span class="font-label-code text-label-xs text-text-muted">Tất cả các phòng và mạch ngoại vi</span>
+</div>
+</div>
+<input class="w-4 h-4 accent-primary rounded" id="acl-all" type="checkbox"/>
+</label>
+<!-- Granular Checks -->
+<div class="space-y-space-xs pl-space-xs">
+<span class="font-label-code text-label-xs text-text-muted block uppercase mb-1">Hoặc chỉ định khu vực cụ thể:</span>
+<label class="flex items-center justify-between p-space-sm rounded hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-outline text-base">living</span>
+<span class="font-body-sm text-body-sm text-on-surface">Phòng khách (Tầng 1)</span>
+</div>
+<input checked="" class="w-4 h-4 accent-primary rounded acl-item" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between p-space-sm rounded hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-outline text-base">countertops</span>
+<span class="font-body-sm text-body-sm text-on-surface">Phòng bếp (Tầng 1)</span>
+</div>
+<input checked="" class="w-4 h-4 accent-primary rounded acl-item" type="checkbox"/>
+</label>
+<label class="flex items-center justify-between p-space-sm rounded hover:bg-surface-container-high transition-colors cursor-pointer">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-outline text-base">bedroom_parent</span>
+<div class="flex items-center gap-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface">Phòng ngủ Master (Tầng 2)</span>
+<span class="font-label-code text-label-xs px-1 rounded bg-status-alarm/15 text-status-alarm">Bảo mật</span>
+</div>
+</div>
+<input class="w-4 h-4 accent-primary rounded acl-item" type="checkbox"/>
+</label>
+</div>
+</div>
+</div>
+<!-- 4. Security Enforcement Note in Drawer -->
+<div class="p-space-sm rounded-lg bg-surface-container-highest/50 flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-text-muted text-base">verified</span>
+<span class="font-label-code text-label-xs text-text-muted leading-tight">
+            Mọi thao tác đổi quyền sẽ được lưu vào hệ thống Audit Trail bất biến và kích hoạt gửi thông báo bảo mật đến Super Admin.
+          </span>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-space-md bg-surface-container flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-2 rounded-xl bg-surface-container-high hover:bg-surface-bright text-on-surface font-body-sm text-body-sm transition-colors" id="cancel-invite-modal" type="button">
+          Hủy bỏ
+        </button>
+<button class="px-space-lg py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-body-sm font-medium transition-all shadow-md flex items-center gap-space-xs" id="submit-invite-btn" type="button">
+<span class="material-symbols-outlined text-sm">send</span>
+<span>Gửi Lời mời &amp; Cấp quyền</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function () {
+    const modal = document.getElementById('invite-modal-backdrop');
+    const openBtn = document.getElementById('open-invite-modal');
+    const closeBtn = document.getElementById('close-invite-modal');
+    const cancelBtn = document.getElementById('cancel-invite-modal');
+    const submitBtn = document.getElementById('submit-invite-btn');
+    const aclAllCheckbox = document.getElementById('acl-all');
+    const aclItems = document.querySelectorAll('.acl-item');
+
+    function openModal() {
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+    }
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+    // Close on clicking backdrop outside drawer
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+
+    // Toggle all spaces logic
+    if (aclAllCheckbox) {
+      aclAllCheckbox.addEventListener('change', (e) => {
+        const isChecked = e.target.checked;
+        aclItems.forEach((item) => {
+          item.checked = isChecked;
+        });
+      });
+    }
+
+    if (submitBtn) {
+      submitBtn.addEventListener('click', () => {
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span> <span>Đang xử lý...</span>';
+        submitBtn.disabled = true;
+
+        setTimeout(() => {
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          closeModal();
+          if (window.showToast) {
+            window.showToast('Gửi Lời Mời Thành Công', 'Đã cấp token mTLS TTL 48H và gửi thư mời kích hoạt thành viên!', 'success');
+          }
+        }, 800);
+      });
+    }
+  })();
+</script></main></div>
+<!-- Core Shared Mock App Script -->
+<script src="mock-app.js"></script>
+</body></html>
