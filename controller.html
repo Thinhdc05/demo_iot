@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html class="dark" lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta content="web_dashboard" name="shell-type" />
+    <title>Cổng điều khiển ESP32 | UPJ IoT Enterprise</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:wght@100..900&family=JetBrains+Mono:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+        @layer base {
+            html, body { margin: 0; padding: 0; }
+            body { overscroll-behavior: none; }
+            main>:first-child { margin-top: 0 !important; }
+            main>:last-child { margin-bottom: 0 !important; }
+        }
+        ::-webkit-scrollbar { display: none; }
+        @keyframes scanLaser {
+            0% { top: 5%; opacity: 0.8; }
+            50% { top: 90%; opacity: 1; }
+            100% { top: 5%; opacity: 0.8; }
+        }
+        .scan-laser-line {
+            animation: scanLaser 2s infinite ease-in-out;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed": "#001d35",
+                        "surface-container-highest": "#343536",
+                        "on-tertiary-fixed-variant": "#454a00",
+                        "on-background": "#e3e2e3",
+                        "surface-container": "#1f2021",
+                        "primary": "#bdc2ff",
+                        "secondary-container": "#274b6e",
+                        "on-primary": "#121f8b",
+                        "status-alarm": "#F43F5E",
+                        "primary-fixed-dim": "#bdc2ff",
+                        "on-primary-fixed-variant": "#2e3aa2",
+                        "surface-border": "#1E2229",
+                        "inverse-surface": "#e3e2e3",
+                        "on-surface-variant": "#c6c5d5",
+                        "tertiary-fixed": "#dfed1a",
+                        "background": "#121315",
+                        "surface-border-subtle": "rgba(255, 255, 255, 0.08)",
+                        "on-tertiary-fixed": "#1b1d00",
+                        "error-container": "#93000a",
+                        "outline-variant": "#454652",
+                        "surface-bright": "#38393a",
+                        "secondary-fixed": "#d0e4ff",
+                        "status-online": "#10B981",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "on-secondary-fixed-variant": "#25496c",
+                        "on-secondary-container": "#99bbe4",
+                        "tertiary": "#c3d000",
+                        "on-error-container": "#ffdad6",
+                        "on-surface": "#e3e2e3",
+                        "secondary": "#a7caf3",
+                        "on-primary-fixed": "#000965",
+                        "text-muted": "#8B93A1",
+                        "tertiary-container": "#717900",
+                        "surface-container-lowest": "#0d0e0f",
+                        "secondary-fixed-dim": "#a7caf3",
+                        "surface-variant": "#343536",
+                        "primary-fixed": "#dfe0ff",
+                        "outline": "#908f9e",
+                        "status-warm": "#F59E0B",
+                        "inverse-primary": "#4854bb",
+                        "surface-container-low": "#1b1c1d",
+                        "surface-dim": "#121315",
+                        "surface-container-high": "#292a2b",
+                        "inverse-on-surface": "#303032",
+                        "on-tertiary": "#2f3300",
+                        "status-telemetry": "#0EA5E9",
+                        "on-tertiary-container": "#fcffc3",
+                        "primary-container": "#5e6ad2",
+                        "on-secondary": "#063254",
+                        "tertiary-fixed-dim": "#c3d000",
+                        "surface": "#121315",
+                        "on-primary-container": "#fdfaff",
+                        "surface-tint": "#bdc2ff"
+                    },
+                    borderRadius: { "DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem" },
+                    spacing: {
+                        "space-lg": "1rem", "space-2xl": "2.5rem", "space-sm": "0.5rem",
+                        "margin-desktop": "2rem", "margin": "1rem", "gutter": "1rem",
+                        "space-xl": "1.5rem", "space-md": "0.75rem", "space-xs": "0.25rem", "gutter-desktop": "1.5rem"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-lg": ["Inter", "sans-serif"],
+                        "display-lg-mobile": ["Geist", "sans-serif"],
+                        "label-metric": ["JetBrains Mono", "monospace"],
+                        "headline-sm": ["Geist", "sans-serif"],
+                        "display-lg": ["Geist", "sans-serif"],
+                        "label-code": ["JetBrains Mono", "monospace"],
+                        "body-sm": ["Inter", "sans-serif"],
+                        "label-xs": ["JetBrains Mono", "monospace"]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="bg-background font-body-sm text-body-sm text-on-surface antialiased">
+    <!-- Sidebar Navigation -->
+    <aside class="fixed left-0 top-0 h-screen w-72 bg-surface-container-low flex flex-col z-50 shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
+        <div class="p-space-lg flex items-center justify-between gap-space-sm cursor-pointer" onclick="window.location.href='index.html'">
+            <div class="flex items-center gap-space-sm">
+                <img alt="UPJ IoT Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAa7FvUhwtzEtCme7Vh08A-UB_XuFJpRjauhlSz4d7zvfOzq3UuKu8RVgzUrQOZF9WcdJOtShcMTB2azdqehLBrJk7C-JIE1S5rPJGOhnh6a7SGlRZ8-BAAj_iHr5ZXx38hLcZNdjPfjmq7uoBRcZrYwh2uW2Bb_J7nKmG0BR1fInLlrYDvz9xzBX44mHUxNSu6WSjo_ZLcuCABQBPG7U5qVoSfkVCtRzt6vo_zfFgMlbqowfI06VQuzQ" />
+                <div class="flex flex-col">
+                    <span class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">UPJ IoT</span>
+                    <span class="font-label-xs text-label-xs text-primary bg-primary-container/20 px-space-xs py-0.5 rounded-lg mt-1 font-label-code">ENTERPRISE v1.2</span>
+                </div>
+            </div>
+            <span class="material-symbols-outlined text-outline text-lg">dns</span>
+        </div>
+        <div class="px-space-lg pb-space-md">
+            <div class="relative bg-surface-container p-space-sm rounded-xl">
+                <div class="text-label-xs font-label-xs text-text-muted uppercase mb-1 tracking-wider">Khu vực điều khiển</div>
+                <div class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-center gap-space-xs">
+                        <span class="material-symbols-outlined text-status-telemetry text-sm">apartment</span>
+                        <select class="bg-transparent font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[170px] focus:outline-none cursor-pointer">
+                            <option class="bg-surface-container-high text-on-surface" value="cau-giay">Nhà phố Cầu Giấy (Hà Nội)</option>
+                            <option class="bg-surface-container-high text-on-surface" value="ba-vi">Trang trại Ba Vì</option>
+                        </select>
+                    </div>
+                    <span class="material-symbols-outlined text-outline text-sm">unfold_more</span>
+                </div>
+            </div>
+        </div>
+        <nav class="flex-1 px-space-md space-y-1 overflow-y-auto">
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="dashboard-overview" href="index.html">
+                <span class="material-symbols-outlined text-lg">dashboard</span>
+                <span class="font-body-sm text-body-sm">Tổng quan</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="systems-and-spaces" href="system_and_Space.html">
+                <span class="material-symbols-outlined text-lg">home</span>
+                <span class="font-body-sm text-body-sm">Hệ thống & Không gian</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="device-center" href="device.html">
+                <span class="material-symbols-outlined text-lg">bolt</span>
+                <span class="font-body-sm text-body-sm">Bảng điều khiển Thiết bị</span>
+            </a>
+            <a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary-container font-medium rounded-xl" data-path="hardware-gateways" href="gateway.html">
+                <span class="material-symbols-outlined text-lg">sensors</span>
+                <span class="font-body-sm text-body-sm">Cổng điều khiển ESP32</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="automations" href="rule.html">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="font-body-sm text-body-sm">Kịch bản Tự động hóa</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="energy-and-logs" href="stat.html">
+                <span class="material-symbols-outlined text-lg">monitoring</span>
+                <span class="font-body-sm text-body-sm">Thống kê Năng lượng & Nhật ký</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="gemini-generative-setup" href="AI.html">
+                <span class="material-symbols-outlined text-lg">smart_toy</span>
+                <span class="font-body-sm text-body-sm">Trợ lý AI Cấu hình</span>
+            </a>
+            <a class="flex items-center gap-space-sm px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors rounded-xl" data-path="members-and-rbac" href="admin.html">
+                <span class="material-symbols-outlined text-lg">shield_person</span>
+                <span class="font-body-sm text-body-sm">Quản trị Thành viên & Phân quyền</span>
+            </a>
+        </nav>
+        <div class="p-space-md bg-surface-container-lowest mx-space-md mb-space-md rounded-xl flex items-center justify-between">
+            <div class="flex items-center gap-space-sm cursor-pointer" onclick="window.location.href='profile.html'">
+                <div class="relative">
+                    <img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1oy3PpcULmLgElidaoZMmoq9X6I6s4UP1ogWq4vwOp_6gnpT3O63eXG0AiyPE-o6hkzabIQ58IEl3KCYindgQOw20eQV9NsEVCN25yET8fMA8RCvmR2qAxzwjqqe0zxTawovG4JFcixc4O1MqVe1VmDesQfdYI8SOCBlijDBqrD54BIZlGa7duVvQ2_r8v4BlFZvhWAtp95bdxJW60-or_3DD-hSL53qm8i3vcFW9Nb60gho5Qxtj2Q" />
+                    <div class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-status-online"></div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-body-sm text-body-sm text-on-surface font-medium truncate max-w-[110px]">Nguyễn Minh Tuấn</span>
+                    <span class="font-label-xs text-label-xs text-tertiary uppercase">SUPER_ADMIN</span>
+                </div>
+            </div>
+            <button class="text-outline hover:text-status-alarm transition-colors" type="button" title="Đăng xuất">
+                <span class="material-symbols-outlined text-lg">logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Shell -->
+    <div class="pl-72 min-h-screen flex flex-col">
+        <!-- Top App Bar -->
+        <header class="fixed top-0 left-72 right-0 h-16 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl">
+            <div class="flex items-center gap-space-md">
+                <div class="flex items-center gap-space-xs text-text-muted font-body-sm text-body-sm">
+                    <span class="hover:text-on-surface cursor-pointer" onclick="window.location.href='index.html'">Hệ thống Cầu Giấy</span>
+                    <span class="material-symbols-outlined text-sm">chevron_right</span>
+                    <span class="text-on-surface font-medium">Cổng điều khiển ESP32</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-space-md">
+                <div class="relative">
+                    <span class="material-symbols-outlined absolute left-space-sm top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+                    <input class="bg-surface-container text-on-surface placeholder:text-text-muted pl-8 pr-12 py-1 rounded-xl text-body-sm font-body-sm focus:outline-none w-64 h-8" placeholder="Tìm MAC, Chip, IP, Node..." type="text" />
+                    <kbd class="absolute right-space-sm top-1/2 -translate-y-1/2 font-label-code text-label-xs text-outline bg-surface-container-high px-1 py-0.5 rounded">⌘K</kbd>
+                </div>
+                <div class="flex items-center gap-space-xs px-space-sm py-1 rounded-xl bg-surface-container font-label-code text-label-xs text-text-muted">
+                    <span class="w-2 h-2 rounded-full bg-status-online animate-pulse"></span>
+                    <span>MQTT: ws://broker.upj.io:8883</span>
+                    <span class="text-status-online font-bold ml-1">ONLINE 100%</span>
+                </div>
+                <div class="relative cursor-pointer">
+                    <span class="material-symbols-outlined text-outline hover:text-on-surface transition-colors">notifications</span>
+                    <span class="absolute -top-1 -right-1 bg-status-alarm text-on-surface font-label-code text-label-xs rounded-full w-4 h-4 flex items-center justify-center font-bold">3</span>
+                </div>
+                <button class="text-outline hover:text-on-surface transition-colors p-1" type="button">
+                    <span class="material-symbols-outlined text-lg">dark_mode</span>
+                </button>
+                <button class="flex items-center gap-space-xs bg-primary-container hover:bg-surface-container-high text-on-primary-container px-space-md py-1.5 rounded-xl font-body-sm text-body-sm font-medium transition-colors" type="button" onclick="openAddControllerModal()">
+                    <span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                    <span>+ Ghép nối Controller</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <main class="w-full pt-16 bg-surface px-space-xl flex-1">
+            <div class="flex flex-col w-full pb-space-2xl space-y-space-xl">
+                <!-- Page Top Banner & Actions -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pt-space-md">
+                    <div class="flex flex-col space-y-space-xs">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Quản lý Cổng điều khiển ESP32 (Hardware Gateways)</span>
+                            <span class="px-space-sm py-0.5 rounded-full bg-status-online/15 text-status-online font-label-code text-label-xs font-semibold flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-status-online animate-pulse"></span> 3 / 3 ONLINE
+                            </span>
+                        </div>
+                        <p class="font-body-sm text-body-sm text-text-muted">
+                            Ghép nối thiết bị phần cứng qua mã QR hoặc MAC/PIN code (Proof of Possession), giám sát FreeRTOS heap và nạp OTA LittleFS.
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-space-sm shrink-0">
+                        <button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-body-sm text-body-sm transition-colors border border-surface-border-subtle" onclick="simulateDiscoverNodes()" type="button">
+                            <span class="material-symbols-outlined text-sm text-status-telemetry">wifi_find</span>
+                            <span>Quét mDNS Tìm Node</span>
+                        </button>
+                        <button class="flex items-center gap-space-xs px-space-md py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-body-sm font-semibold transition-all shadow-md" onclick="openAddControllerModal()" type="button">
+                            <span class="material-symbols-outlined text-sm">add_to_queue</span>
+                            <span>+ Thêm Controller Mới (QR / PIN)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4 Operational Metrics Tiles -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Gateways Hoạt động</span>
+                            <span class="material-symbols-outlined text-status-online text-base">memory</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-status-online">3 <span class="font-body-sm text-body-sm text-text-muted">Node</span></span>
+                            <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-1.5 py-0.5 rounded">0 LỖI KẾT NỐI</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">1 ESP32 Classic • 1 S3 • 1 C3</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Tín hiệu Wi-Fi / RSSI</span>
+                            <span class="material-symbols-outlined text-status-telemetry text-base">wifi</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">-54 <span class="font-body-sm text-body-sm text-text-muted">dBm TB</span></span>
+                            <span class="font-label-code text-label-xs text-status-telemetry bg-status-telemetry/10 px-1.5 py-0.5 rounded">RẤT MẠNH</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">Băng tần 2.4GHz Wi-Fi + ESP-NOW</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">FreeRTOS Free Heap</span>
+                            <span class="material-symbols-outlined text-primary text-base">developer_board</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">198 <span class="font-body-sm text-body-sm text-text-muted">KB</span></span>
+                            <span class="font-label-code text-label-xs text-primary bg-primary-container/20 px-1.5 py-0.5 rounded">82% AN TOÀN</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">Không rò rỉ RAM (No Memleak)</div>
+                    </div>
+                    <div class="p-space-md rounded-xl bg-surface-container-low flex flex-col justify-between shadow-sm border border-surface-border-subtle">
+                        <div class="flex items-center justify-between text-text-muted">
+                            <span class="font-label-code text-label-xs uppercase tracking-wider">Phiên bản Firmware</span>
+                            <span class="material-symbols-outlined text-tertiary text-base">system_update_alt</span>
+                        </div>
+                        <div class="mt-space-md flex items-baseline justify-between">
+                            <span class="font-label-metric text-label-metric text-on-surface">v5.2.1</span>
+                            <span class="font-label-code text-label-xs text-tertiary bg-tertiary-container/20 px-1.5 py-0.5 rounded">ESP-IDF</span>
+                        </div>
+                        <div class="mt-2 text-xs font-label-code text-text-muted">LittleFS Rule Parser v3.4</div>
+                    </div>
+                </div>
+
+                <!-- Controllers List Grid -->
+                <div class="space-y-space-md">
+                    <div class="flex items-center justify-between">
+                        <h2 class="font-headline-sm text-headline-sm text-on-surface font-semibold flex items-center gap-2">
+                            <span>Danh Sách Cổng Điều Khiển Đã Ghép Nối</span>
+                            <span class="font-label-code text-label-xs bg-surface-container px-2 py-0.5 rounded-full text-text-muted" id="controller-count">3 Gateways</span>
+                        </h2>
+                        <div class="flex items-center gap-2">
+                            <button class="px-space-md py-1 rounded-lg bg-surface-container-high text-on-surface text-xs font-body-sm hover:bg-surface-container-highest transition-colors flex items-center gap-1" onclick="simulateOtaBatch()">
+                                <span class="material-symbols-outlined text-sm text-status-telemetry">cloud_sync</span>
+                                <span>Cập nhật OTA Đồng Loạt</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg" id="controllers-list">
+                        <!-- Node 1: ESP32-LivingRoom -->
+                        <div class="controller-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group">
+                            <div>
+                                <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                            <span class="material-symbols-outlined text-2xl">router</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">ESP32-LivingRoom</h3>
+                                            <span class="font-label-code text-label-xs text-text-muted">ESP32-WROOM-32D • Dual-Core 240MHz</span>
+                                        </div>
+                                    </div>
+                                    <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-status-online animate-pulse"></span> ONLINE
+                                    </span>
+                                </div>
+
+                                <!-- Hardware identifiers (MAC, PIN, IP) -->
+                                <div class="mt-space-md p-space-sm rounded-xl bg-surface-container space-y-1 text-xs font-label-code">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Địa chỉ MAC:</span>
+                                        <span class="text-primary font-bold">48:E7:29:83:A1:01</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Setup PIN (PoP):</span>
+                                        <span class="text-on-surface font-bold tracking-widest bg-surface-container-highest px-1 rounded">***410</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">IP LAN (mTLS):</span>
+                                        <span class="text-on-surface">192.168.1.101</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Khu vực gán:</span>
+                                        <span class="text-status-telemetry font-medium">Phòng khách (Tầng 1)</span>
+                                    </div>
+                                </div>
+
+                                <!-- Diagnostic Telemetry Matrix -->
+                                <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">TÍN HIỆU</span>
+                                        <span class="text-status-online font-bold text-sm">-56 dBm</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">FREE HEAP</span>
+                                        <span class="text-on-surface font-bold text-sm">194 KB</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">UPTIME</span>
+                                        <span class="text-status-telemetry font-bold text-sm">14 ngày</span>
+                                    </div>
+                                </div>
+
+                                <!-- Pinout & Device Mapping -->
+                                <div class="mt-space-md space-y-1.5">
+                                    <div class="flex items-center justify-between text-label-xs font-label-code text-text-muted uppercase">
+                                        <span>Chân GPIO gán (4)</span>
+                                        <span class="text-primary">LittleFS: 128KB</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 16: Đèn LED
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 18: Quạt PWM
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 19: PIR Sensor
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 21: TV Socket
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Actions Toolbar -->
+                            <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="openSerialLog('ESP32-LivingRoom', '48:E7:29:83:A1:01')">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">terminal</span>
+                                    <span>Serial Log</span>
+                                </button>
+                                <div class="flex items-center gap-1">
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="Khởi động lại" onclick="rebootSpecificNode('ESP32-LivingRoom')">
+                                        <span class="material-symbols-outlined text-sm">restart_alt</span>
+                                    </button>
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="In mã QR ghép nối" onclick="showQrForNode('ESP32-LivingRoom', '48:E7:29:83:A1:01', '849410')">
+                                        <span class="material-symbols-outlined text-sm">qr_code_2</span>
+                                    </button>
+                                    <a href="device.html" class="p-1.5 rounded-lg bg-primary-container text-on-primary-container text-xs font-body-sm font-semibold transition-colors flex items-center gap-1">
+                                        <span>Gán Chân</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Node 2: ESP32-Kitchen-SensorHub -->
+                        <div class="controller-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group">
+                            <div>
+                                <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-11 h-11 rounded-xl bg-status-warm/10 text-status-warm flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                            <span class="material-symbols-outlined text-2xl">developer_board</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">ESP32-Kitchen-Hub</h3>
+                                            <span class="font-label-code text-label-xs text-text-muted">ESP32-S3-WROOM-1 • 8MB Octal Flash</span>
+                                        </div>
+                                    </div>
+                                    <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-status-online animate-pulse"></span> ONLINE
+                                    </span>
+                                </div>
+
+                                <div class="mt-space-md p-space-sm rounded-xl bg-surface-container space-y-1 text-xs font-label-code">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Địa chỉ MAC:</span>
+                                        <span class="text-primary font-bold">48:E7:29:A1:BF:84</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Setup PIN (PoP):</span>
+                                        <span class="text-on-surface font-bold tracking-widest bg-surface-container-highest px-1 rounded">***923</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">IP LAN (mTLS):</span>
+                                        <span class="text-on-surface">192.168.1.102</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Khu vực gán:</span>
+                                        <span class="text-status-warm font-medium">Phòng Bếp & Ăn</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">TÍN HIỆU</span>
+                                        <span class="text-status-online font-bold text-sm">-52 dBm</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">FREE HEAP</span>
+                                        <span class="text-on-surface font-bold text-sm">240 KB</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">UPTIME</span>
+                                        <span class="text-status-telemetry font-bold text-sm">28 ngày</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-space-md space-y-1.5">
+                                    <div class="flex items-center justify-between text-label-xs font-label-code text-text-muted uppercase">
+                                        <span>Chân GPIO gán (5)</span>
+                                        <span class="text-status-alarm">Gas Safety Node</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-status-alarm font-label-code">
+                                            GPIO 34: Cảm biến Gas MQ-2
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 25: Quạt hút khói PWM
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 26: Còi Piezo 110dB
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 32: Van ngắt gas
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="openSerialLog('ESP32-Kitchen-Hub', '48:E7:29:A1:BF:84')">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">terminal</span>
+                                    <span>Serial Log</span>
+                                </button>
+                                <div class="flex items-center gap-1">
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="Khởi động lại" onclick="rebootSpecificNode('ESP32-Kitchen-Hub')">
+                                        <span class="material-symbols-outlined text-sm">restart_alt</span>
+                                    </button>
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="In mã QR ghép nối" onclick="showQrForNode('ESP32-Kitchen-Hub', '48:E7:29:A1:BF:84', '912923')">
+                                        <span class="material-symbols-outlined text-sm">qr_code_2</span>
+                                    </button>
+                                    <a href="device.html" class="p-1.5 rounded-lg bg-primary-container text-on-primary-container text-xs font-body-sm font-semibold transition-colors flex items-center gap-1">
+                                        <span>Gán Chân</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Node 3: ESP32-Bedroom -->
+                        <div class="controller-card bg-surface-container-low border border-surface-border-subtle rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-sm group">
+                            <div>
+                                <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                                    <div class="flex items-center gap-space-sm">
+                                        <div class="w-11 h-11 rounded-xl bg-status-telemetry/10 text-status-telemetry flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+                                            <span class="material-symbols-outlined text-2xl">memory</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">ESP32-Bedroom</h3>
+                                            <span class="font-label-code text-label-xs text-text-muted">ESP32-C3-WROOM • RISC-V 160MHz</span>
+                                        </div>
+                                    </div>
+                                    <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-status-online animate-pulse"></span> ONLINE
+                                    </span>
+                                </div>
+
+                                <div class="mt-space-md p-space-sm rounded-xl bg-surface-container space-y-1 text-xs font-label-code">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Địa chỉ MAC:</span>
+                                        <span class="text-primary font-bold">48:E7:29:C3:98:12</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Setup PIN (PoP):</span>
+                                        <span class="text-on-surface font-bold tracking-widest bg-surface-container-highest px-1 rounded">***551</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">IP LAN (mTLS):</span>
+                                        <span class="text-on-surface">192.168.1.103</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-text-muted">Khu vực gán:</span>
+                                        <span class="text-status-telemetry font-medium">Phòng Ngủ Master</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">TÍN HIỆU</span>
+                                        <span class="text-status-online font-bold text-sm">-61 dBm</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">FREE HEAP</span>
+                                        <span class="text-on-surface font-bold text-sm">160 KB</span>
+                                    </div>
+                                    <div class="p-2 rounded-lg bg-surface-container">
+                                        <span class="text-text-muted block text-label-xs">UPTIME</span>
+                                        <span class="text-status-telemetry font-bold text-sm">9 ngày</span>
+                                    </div>
+                                </div>
+
+                                <div class="mt-space-md space-y-1.5">
+                                    <div class="flex items-center justify-between text-label-xs font-label-code text-text-muted uppercase">
+                                        <span>Chân GPIO gán (4)</span>
+                                        <span class="text-status-online">Comfort HVAC</span>
+                                    </div>
+                                    <div class="flex flex-wrap gap-1.5">
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 4: Điều hòa IR
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 5: Rèm cuốn Servo
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 12: Đèn Dimmer
+                                        </span>
+                                        <span class="px-2 py-0.5 rounded bg-surface-container text-xs text-on-surface font-label-code">
+                                            GPIO 21/22: mmWave I2C
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                                <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="openSerialLog('ESP32-Bedroom', '48:E7:29:C3:98:12')">
+                                    <span class="material-symbols-outlined text-sm text-status-telemetry">terminal</span>
+                                    <span>Serial Log</span>
+                                </button>
+                                <div class="flex items-center gap-1">
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="Khởi động lại" onclick="rebootSpecificNode('ESP32-Bedroom')">
+                                        <span class="material-symbols-outlined text-sm">restart_alt</span>
+                                    </button>
+                                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors" title="In mã QR ghép nối" onclick="showQrForNode('ESP32-Bedroom', '48:E7:29:C3:98:12', '551102')">
+                                        <span class="material-symbols-outlined text-sm">qr_code_2</span>
+                                    </button>
+                                    <a href="device.html" class="p-1.5 rounded-lg bg-primary-container text-on-primary-container text-xs font-body-sm font-semibold transition-colors flex items-center gap-1">
+                                        <span>Gán Chân</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: PROVISION NEW CONTROLLER WIZARD (QR / MANUAL PIN PROOF OF POSSESSION) -->
+            <div id="add-controller-modal" class="fixed inset-0 z-[9996] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+                <div class="bg-surface-container-low border border-surface-border-subtle rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden flex flex-col">
+                    <!-- Modal Header -->
+                    <div class="p-space-lg bg-surface-container border-b border-surface-border-subtle flex items-center justify-between">
+                        <div class="flex items-center gap-space-sm">
+                            <div class="w-10 h-10 rounded-xl bg-primary text-on-primary flex items-center justify-center">
+                                <span class="material-symbols-outlined text-xl">qr_code_scanner</span>
+                            </div>
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Ghép Nối Controller ESP32 Mới</h3>
+                                <p class="font-body-sm text-xs text-text-muted">Quét mã QR trên bo mạch hoặc nhập MAC &amp; Setup PIN Code</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAddControllerModal()" class="text-text-muted hover:text-on-surface p-1 rounded-lg" type="button">
+                            <span class="material-symbols-outlined">close</span>
+                        </button>
+                    </div>
+
+                    <!-- Wizard Mode Tabs -->
+                    <div class="flex border-b border-surface-border-subtle bg-surface-container-lowest/60">
+                        <button id="tab-btn-qr" class="flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-primary text-primary transition-all flex items-center justify-center gap-2" onclick="switchProvTab('qr')">
+                            <span class="material-symbols-outlined text-base">center_focus_strong</span>
+                            <span>Quét Mã QR (Board Camera)</span>
+                        </button>
+                        <button id="tab-btn-manual" class="flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-on-surface transition-all flex items-center justify-center gap-2" onclick="switchProvTab('manual')">
+                            <span class="material-symbols-outlined text-base">pin</span>
+                            <span>Nhập Mã Thủ Công (MAC & PIN)</span>
+                        </button>
+                    </div>
+
+                    <!-- Modal Body Form -->
+                    <form id="add-controller-form" class="p-space-lg space-y-space-md" onsubmit="handleStartProvisioning(event)">
+                        <!-- TAB 1: QR CODE SCANNER VIEW -->
+                        <div id="prov-panel-qr" class="space-y-space-md">
+                            <div class="relative w-full h-56 bg-surface-container-lowest rounded-2xl border-2 border-dashed border-primary/40 flex flex-col items-center justify-center overflow-hidden">
+                                <!-- Laser Scanning Simulation Bar -->
+                                <div class="absolute left-0 right-0 h-0.5 bg-status-alarm shadow-[0_0_12px_rgba(244,63,94,0.9)] scan-laser-line z-20 pointer-events-none"></div>
+                                
+                                <!-- Viewfinder Corners -->
+                                <div class="relative w-40 h-40 border-2 border-primary/70 rounded-xl flex items-center justify-center bg-black/30 backdrop-blur-[1px]">
+                                    <div class="w-32 h-32 border border-white/20 rounded-lg p-2 flex flex-col items-center justify-center text-center">
+                                        <span class="material-symbols-outlined text-4xl text-primary/80 mb-1">qr_code_2</span>
+                                        <span class="font-label-code text-[10px] text-text-muted uppercase">ESP32 Setup Tag</span>
+                                    </div>
+                                    <!-- Corner borders -->
+                                    <span class="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-primary"></span>
+                                    <span class="absolute -top-1 -right-1 w-4 h-4 border-t-2 border-r-2 border-primary"></span>
+                                    <span class="absolute -bottom-1 -left-1 w-4 h-4 border-b-2 border-l-2 border-primary"></span>
+                                    <span class="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-primary"></span>
+                                </div>
+                                <span class="font-body-sm text-xs text-text-muted mt-2">Hướng camera về phía mã QR in trên vỏ hoặc bo mạch ESP32</span>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-surface-container">
+                                <div class="flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-status-telemetry text-base">auto_awesome</span>
+                                    <span class="font-body-sm text-xs text-on-surface">Mô phỏng quét mã tem nhãn mẫu</span>
+                                </div>
+                                <button type="button" class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container hover:bg-primary font-body-sm text-xs font-semibold transition-colors" onclick="simulateScanSampleQr()">
+                                    ⚡ Quét Mẫu Nhanh
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: MANUAL MAC & PIN SETUP VIEW (Also populated after QR scan) -->
+                        <div id="prov-panel-manual" class="space-y-space-md hidden">
+                            <div class="grid grid-cols-2 gap-space-md">
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Địa chỉ phần cứng (MAC Address) *</label>
+                                    <input id="prov-mac" required placeholder="48:E7:29:XX:XX:XX" class="w-full bg-surface-container text-on-surface font-label-code px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary uppercase" />
+                                </div>
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Setup PIN (Proof of Possession) *</label>
+                                    <input id="prov-pin" required placeholder="6 số PIN bí mật (VD: 849201)" maxlength="8" class="w-full bg-surface-container text-on-surface font-label-code px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary tracking-widest text-center" />
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-space-md">
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Tên Controller gợi nhớ *</label>
+                                    <input id="prov-name" required placeholder="Ví dụ: ESP32-Garage-Gateway" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary" />
+                                </div>
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Dòng chip vi điều khiển *</label>
+                                    <select id="prov-chip" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                        <option value="ESP32-WROOM-32D">ESP32 Classic (Dual-Core 240MHz)</option>
+                                        <option value="ESP32-S3-WROOM">ESP32-S3 (AI Vector & 8MB Flash)</option>
+                                        <option value="ESP32-C3-WROOM">ESP32-C3 (RISC-V 160MHz BLE5)</option>
+                                        <option value="ESP32-C6-WROOM">ESP32-C6 (Wi-Fi 6 + Zigbee/Thread)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-space-md">
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Khu vực / Phòng phân bổ *</label>
+                                    <select id="prov-space" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                        <option value="Phòng Khách">Phòng Khách (Tầng 1)</option>
+                                        <option value="Phòng Bếp">Phòng Bếp & Ăn (Tầng 1)</option>
+                                        <option value="Phòng Ngủ Master">Phòng Ngủ Master (Tầng 2)</option>
+                                        <option value="Phòng Làm việc">Phòng Làm việc (Tầng 2)</option>
+                                        <option value="Sân Thượng">Sân Thượng & Ban Công</option>
+                                        <option value="Garage Ô tô">Garage Ô tô & Kho</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="font-body-sm text-xs text-text-muted block mb-1">Giao thức truyền thông *</label>
+                                    <select id="prov-proto" class="w-full bg-surface-container text-on-surface px-space-md py-2 rounded-xl text-body-sm font-body-sm border border-surface-border-subtle focus:outline-none focus:border-primary">
+                                        <option value="MQTT-TLS">MQTT over TLS (Port 8883 - Khuyến nghị)</option>
+                                        <option value="ESP-NOW">ESP-NOW Mesh (Direct LAN Offline)</option>
+                                        <option value="REST-HTTP">REST API mTLS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PROVISIONING PROGRESS LIVE STREAM (Hidden until started) -->
+                        <div id="prov-stepper" class="hidden p-3 rounded-xl bg-surface-container space-y-2 border border-primary/30">
+                            <div class="flex items-center justify-between text-xs font-label-code">
+                                <span class="text-primary font-bold flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-sm animate-spin">sync</span>
+                                    <span>Đang nạp cấu hình (BLE Provisioning)...</span>
+                                </span>
+                                <span id="prov-step-percent" class="text-status-online font-bold">25%</span>
+                            </div>
+                            <!-- 4 Step list -->
+                            <div class="space-y-1 text-xs font-label-code text-text-muted" id="prov-step-logs">
+                                <div id="p-step-1" class="flex items-center gap-1.5 text-on-surface">
+                                    <span class="material-symbols-outlined text-xs text-status-telemetry animate-spin">sync</span>
+                                    <span>1. Bắt tay BLE SoftAP &amp; Chứng thực PIN Code...</span>
+                                </div>
+                                <div id="p-step-2" class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-xs">radio_button_unchecked</span>
+                                    <span>2. Nạp Wi-Fi Credentials &amp; Cấp phát IP DHCP</span>
+                                </div>
+                                <div id="p-step-3" class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-xs">radio_button_unchecked</span>
+                                    <span>3. Cấp chứng chỉ mTLS &amp; Ghi NVS Flash</span>
+                                </div>
+                                <div id="p-step-4" class="flex items-center gap-1.5 text-text-muted">
+                                    <span class="material-symbols-outlined text-xs">radio_button_unchecked</span>
+                                    <span>4. Đăng ký Gateway lên MQTT Broker (Port 8883)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Footer Actions -->
+                        <div class="pt-2 flex items-center justify-end gap-space-sm border-t border-surface-border-subtle">
+                            <button type="button" onclick="closeAddControllerModal()" class="px-space-md py-2 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-body-sm text-sm transition-colors">
+                                Hủy bỏ
+                            </button>
+                            <button type="submit" id="submit-prov-btn" class="px-space-lg py-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary-container hover:text-on-primary font-body-sm text-sm font-semibold transition-all shadow-md flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-sm">bolt</span>
+                                <span>Bắt Đầu Ghép Nối &amp; Nạp Gateway</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- MODAL: LIVE SERIAL MONITOR / TERMINAL LOGS -->
+            <div id="serial-log-modal" class="fixed inset-0 z-[9997] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+                <div class="bg-surface-container-lowest border border-surface-border-subtle rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col">
+                    <div class="p-3 bg-surface-container border-b border-surface-border-subtle flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-status-online animate-pulse"></span>
+                            <span class="font-label-code text-xs text-on-surface font-semibold" id="serial-title">UART Terminal: ESP32-LivingRoom</span>
+                            <span class="font-label-code text-label-xs bg-surface-container-high px-1.5 rounded text-text-muted">115200 BAUD</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="text-text-muted hover:text-on-surface text-xs font-label-code" onclick="clearSerialLogs()">Xóa log</button>
+                            <button class="text-text-muted hover:text-on-surface p-0.5 rounded" onclick="closeSerialLog()">
+                                <span class="material-symbols-outlined text-sm">close</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-4 font-label-code text-xs text-on-surface-variant max-h-80 overflow-y-auto space-y-1 select-all bg-black/70" id="serial-log-stream">
+                        <!-- Serial lines will stream here -->
+                    </div>
+                    <div class="p-2 bg-surface-container border-t border-surface-border-subtle flex items-center justify-between text-xs font-label-code text-text-muted">
+                        <span>Buffer: 4.2 KB / Auto-scroll enabled</span>
+                        <span class="text-status-online">Stream: Active (FreeRTOS v10.4)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: QR CODE CARD VIEWER -->
+            <div id="qr-view-modal" class="fixed inset-0 z-[9997] bg-black/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+                <div class="bg-surface-container-low border border-surface-border-subtle rounded-2xl shadow-2xl max-w-sm w-full p-space-lg flex flex-col items-center text-center">
+                    <div class="flex items-center justify-between w-full pb-2 border-b border-surface-border-subtle">
+                        <span class="font-headline-sm text-sm font-semibold text-on-surface" id="qr-node-title">Tem Nhãn Ghép Nối ESP32</span>
+                        <button onclick="closeQrViewModal()" class="text-text-muted hover:text-on-surface">
+                            <span class="material-symbols-outlined text-base">close</span>
+                        </button>
+                    </div>
+                    <div class="my-space-md p-4 bg-white rounded-2xl shadow-md inline-block">
+                        <!-- High visual SVG QR code -->
+                        <svg class="w-44 h-44 text-black" viewBox="0 0 100 100" fill="currentColor">
+                            <rect x="0" y="0" width="30" height="30" fill="black" />
+                            <rect x="5" y="5" width="20" height="20" fill="white" />
+                            <rect x="10" y="10" width="10" height="10" fill="black" />
+                            <rect x="70" y="0" width="30" height="30" fill="black" />
+                            <rect x="75" y="5" width="20" height="20" fill="white" />
+                            <rect x="80" y="10" width="10" height="10" fill="black" />
+                            <rect x="0" y="70" width="30" height="30" fill="black" />
+                            <rect x="5" y="75" width="20" height="20" fill="white" />
+                            <rect x="10" y="80" width="10" height="10" fill="black" />
+                            <rect x="40" y="10" width="10" height="10" fill="black" />
+                            <rect x="40" y="30" width="10" height="10" fill="black" />
+                            <rect x="20" y="40" width="10" height="10" fill="black" />
+                            <rect x="50" y="50" width="10" height="10" fill="black" />
+                            <rect x="70" y="40" width="10" height="10" fill="black" />
+                            <rect x="40" y="70" width="10" height="10" fill="black" />
+                            <rect x="60" y="80" width="10" height="10" fill="black" />
+                            <rect x="80" y="70" width="10" height="10" fill="black" />
+                        </svg>
+                    </div>
+                    <div class="p-2 bg-surface-container rounded-xl w-full text-xs font-label-code space-y-1">
+                        <div>MAC: <strong class="text-primary" id="qr-mac-text">48:E7:29:83:A1:01</strong></div>
+                        <div>Setup PIN: <strong class="text-status-warm" id="qr-pin-text">849410</strong></div>
+                        <div class="text-[10px] text-text-muted mt-1">Payload: PROV_ESP32_48E729_SECURE</div>
+                    </div>
+                    <button class="mt-space-md w-full py-2 rounded-xl bg-primary text-on-primary font-body-sm text-xs font-semibold" onclick="printQrTag()">
+                        In Tem Nhãn Dán Bo Mạch
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Page Specific Script -->
+    <script>
+        function switchProvTab(tab) {
+            const qrBtn = document.getElementById('tab-btn-qr');
+            const manualBtn = document.getElementById('tab-btn-manual');
+            const qrPanel = document.getElementById('prov-panel-qr');
+            const manualPanel = document.getElementById('prov-panel-manual');
+
+            if (tab === 'qr') {
+                qrBtn.className = 'flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-primary text-primary transition-all flex items-center justify-center gap-2';
+                manualBtn.className = 'flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-on-surface transition-all flex items-center justify-center gap-2';
+                qrPanel.classList.remove('hidden');
+                manualPanel.classList.add('hidden');
+            } else {
+                manualBtn.className = 'flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-primary text-primary transition-all flex items-center justify-center gap-2';
+                qrBtn.className = 'flex-1 py-3 text-center font-body-sm text-sm font-medium border-b-2 border-transparent text-text-muted hover:text-on-surface transition-all flex items-center justify-center gap-2';
+                manualPanel.classList.remove('hidden');
+                qrPanel.classList.add('hidden');
+            }
+        }
+
+        function simulateScanSampleQr() {
+            if (window.showToast) window.showToast('Camera Scanner', 'Đã quét thành công mã QR bo mạch ESP32!', 'success');
+            
+            // Switch to manual review and populate
+            switchProvTab('manual');
+            document.getElementById('prov-mac').value = '48:E7:29:D4:55:C8';
+            document.getElementById('prov-pin').value = '729410';
+            document.getElementById('prov-name').value = 'ESP32-Garage-Gateway';
+            document.getElementById('prov-chip').value = 'ESP32-S3-WROOM';
+            document.getElementById('prov-space').value = 'Garage Ô tô';
+        }
+
+        function openAddControllerModal() {
+            const modal = document.getElementById('add-controller-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                switchProvTab('qr');
+            }
+        }
+
+        function closeAddControllerModal() {
+            const modal = document.getElementById('add-controller-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function handleStartProvisioning(e) {
+            e.preventDefault();
+            const mac = document.getElementById('prov-mac').value || '48:E7:29:D4:55:C8';
+            const pin = document.getElementById('prov-pin').value || '729410';
+            const name = document.getElementById('prov-name').value || 'ESP32-Garage-Gateway';
+            const chip = document.getElementById('prov-chip').value;
+            const space = document.getElementById('prov-space').value;
+
+            const stepper = document.getElementById('prov-stepper');
+            const submitBtn = document.getElementById('submit-prov-btn');
+            stepper.classList.remove('hidden');
+            submitBtn.disabled = true;
+
+            const p1 = document.getElementById('p-step-1');
+            const p2 = document.getElementById('p-step-2');
+            const p3 = document.getElementById('p-step-3');
+            const p4 = document.getElementById('p-step-4');
+            const pct = document.getElementById('prov-step-percent');
+
+            setTimeout(() => {
+                p1.className = 'flex items-center gap-1.5 text-status-online';
+                p1.innerHTML = '<span class="material-symbols-outlined text-xs text-status-online">check_circle</span><span>1. Bắt tay BLE SoftAP & Xác thực PIN ' + pin + ' (PoP Thành công)</span>';
+                p2.className = 'flex items-center gap-1.5 text-on-surface';
+                p2.innerHTML = '<span class="material-symbols-outlined text-xs text-status-telemetry animate-spin">sync</span><span>2. Đang nạp Wi-Fi Credentials "UPJ-IOT-EXT" & Gán IP...</span>';
+                pct.textContent = '50%';
+            }, 900);
+
+            setTimeout(() => {
+                p2.className = 'flex items-center gap-1.5 text-status-online';
+                p2.innerHTML = '<span class="material-symbols-outlined text-xs text-status-online">check_circle</span><span>2. Wi-Fi Kết nối OK! IP DHCP: 192.168.1.104</span>';
+                p3.className = 'flex items-center gap-1.5 text-on-surface';
+                p3.innerHTML = '<span class="material-symbols-outlined text-xs text-status-telemetry animate-spin">sync</span><span>3. Cấp chứng chỉ mTLS x509 & Ghi NVS Flash...</span>';
+                pct.textContent = '75%';
+            }, 1800);
+
+            setTimeout(() => {
+                p3.className = 'flex items-center gap-1.5 text-status-online';
+                p3.innerHTML = '<span class="material-symbols-outlined text-xs text-status-online">check_circle</span><span>3. Chứng chỉ x509 & LittleFS nạp thành công</span>';
+                p4.className = 'flex items-center gap-1.5 text-on-surface';
+                p4.innerHTML = '<span class="material-symbols-outlined text-xs text-status-telemetry animate-spin">sync</span><span>4. Đăng ký Gateway lên MQTT Broker (Port 8883)...</span>';
+                pct.textContent = '90%';
+            }, 2600);
+
+            setTimeout(() => {
+                p4.className = 'flex items-center gap-1.5 text-status-online';
+                p4.innerHTML = '<span class="material-symbols-outlined text-xs text-status-online">check_circle</span><span>4. Gateway đã ACTIVE trên MQTT Broker!</span>';
+                pct.textContent = '100%';
+
+                // Append new card to grid
+                addNewControllerCard(name, chip, mac, pin, space);
+
+                setTimeout(() => {
+                    closeAddControllerModal();
+                    stepper.classList.add('hidden');
+                    submitBtn.disabled = false;
+                    document.getElementById('add-controller-form').reset();
+                    if (window.showToast) {
+                        window.showToast('Ghép Nối Hoàn Tất', `Controller "${name}" (${mac}) đã trực tuyến và sẵn sàng gán GPIO!`, 'success');
+                    }
+                }, 800);
+            }, 3400);
+        }
+
+        function addNewControllerCard(name, chip, mac, pin, space) {
+            const list = document.getElementById('controllers-list');
+            const card = document.createElement('div');
+            card.className = 'controller-card bg-surface-container-low border border-status-online/50 rounded-2xl p-space-lg flex flex-col justify-between hover:border-primary/40 transition-all shadow-lg';
+            card.innerHTML = `
+                <div>
+                    <div class="flex items-start justify-between pb-space-sm border-b border-surface-border-subtle">
+                        <div class="flex items-center gap-space-sm">
+                            <div class="w-11 h-11 rounded-xl bg-status-online/15 text-status-online flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-2xl">router</span>
+                            </div>
+                            <div>
+                                <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">${name}</h3>
+                                <span class="font-label-code text-label-xs text-text-muted">${chip}</span>
+                            </div>
+                        </div>
+                        <span class="font-label-code text-label-xs text-status-online bg-status-online/10 px-2 py-0.5 rounded-full flex items-center gap-1 font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-status-online animate-pulse"></span> MỚI GHÉP NỐI
+                        </span>
+                    </div>
+
+                    <div class="mt-space-md p-space-sm rounded-xl bg-surface-container space-y-1 text-xs font-label-code">
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-muted">Địa chỉ MAC:</span>
+                            <span class="text-primary font-bold">${mac}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-muted">Setup PIN (PoP):</span>
+                            <span class="text-on-surface font-bold tracking-widest bg-surface-container-highest px-1 rounded">${pin}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-muted">IP LAN (mTLS):</span>
+                            <span class="text-on-surface">192.168.1.104</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-text-muted">Khu vực gán:</span>
+                            <span class="text-status-telemetry font-medium">${space}</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 mt-space-sm text-center font-label-code text-label-xs">
+                        <div class="p-2 rounded-lg bg-surface-container">
+                            <span class="text-text-muted block text-label-xs">TÍN HIỆU</span>
+                            <span class="text-status-online font-bold text-sm">-48 dBm</span>
+                        </div>
+                        <div class="p-2 rounded-lg bg-surface-container">
+                            <span class="text-text-muted block text-label-xs">FREE HEAP</span>
+                            <span class="text-on-surface font-bold text-sm">260 KB</span>
+                        </div>
+                        <div class="p-2 rounded-lg bg-surface-container">
+                            <span class="text-text-muted block text-label-xs">UPTIME</span>
+                            <span class="text-status-telemetry font-bold text-sm">Vừa xong</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-space-md space-y-1.5">
+                        <div class="flex items-center justify-between text-label-xs font-label-code text-text-muted uppercase">
+                            <span>Chân GPIO gán (0)</span>
+                            <span class="text-status-online">Chờ gán ngoại vi</span>
+                        </div>
+                        <div class="text-xs text-text-muted font-body-sm p-2 rounded bg-surface-container">
+                            Bo mạch đã sẵn sàng. Chuyển sang "Bảng điều khiển Thiết bị" để gán Relay/PWM/Sensor.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-space-lg pt-space-sm border-t border-surface-border-subtle flex items-center justify-between">
+                    <button class="p-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-body-sm transition-colors flex items-center gap-1" onclick="openSerialLog('${name}', '${mac}')">
+                        <span class="material-symbols-outlined text-sm text-status-telemetry">terminal</span>
+                        <span>Serial Log</span>
+                    </button>
+                    <a href="device.html" class="p-1.5 rounded-lg bg-primary text-on-primary text-xs font-body-sm font-semibold transition-colors flex items-center gap-1">
+                        <span>Gán Chân GPIO →</span>
+                    </a>
+                </div>
+            `;
+            list.prepend(card);
+            document.getElementById('controller-count').textContent = '4 Gateways';
+        }
+
+        function simulateDiscoverNodes() {
+            if (window.showToast) {
+                window.showToast('Quét mDNS Node', 'Đang gửi gói tin khám phá cổng điều khiển ESP32 trong mạng LAN...', 'info');
+                setTimeout(() => {
+                    window.showToast('Kết Quả Quét', 'Đã tìm thấy 3 Node hiện hữu và 1 thiết bị chưa ghép nối: [ESP32-D455C8] (RSSI -48 dBm).', 'success');
+                }, 1400);
+            }
+        }
+
+        function simulateOtaBatch() {
+            if (window.showToast) {
+                window.showToast('Cập Nhật Firmware OTA', 'Đang kiểm tra digest SHA-256 firmware ESP-IDF v5.2.2 cho 3 Node...', 'info');
+                setTimeout(() => {
+                    window.showToast('OTA Hoàn Tất', '3 Node ESP32 đã nạp xong bản build LittleFS v3.4 mới nhất.', 'success');
+                }, 1800);
+            }
+        }
+
+        function rebootSpecificNode(nodeName) {
+            if (window.showToast) {
+                window.showToast('Khởi Động Lại', `Đang gửi lệnh soft reset qua MQTT tới ${nodeName}...`, 'warning');
+                setTimeout(() => {
+                    window.showToast('Node Đã Boot Xong', `${nodeName} đã nạp lại Flash và kết nối mTLS thành công.`, 'success');
+                }, 1500);
+            }
+        }
+
+        function openSerialLog(nodeName, mac) {
+            const modal = document.getElementById('serial-log-modal');
+            const stream = document.getElementById('serial-log-stream');
+            document.getElementById('serial-title').textContent = `UART Serial: ${nodeName} [${mac}]`;
+            stream.innerHTML = `
+                <div class="text-text-muted">[BOOT] ESP-IDF v5.2.1-dirty FreeRTOS v10.4.3</div>
+                <div class="text-text-muted">[BOOT] Chip ID: ESP32-D0WD-V3 (revision 3), Cores: 2, 240MHz</div>
+                <div class="text-text-muted">[BOOT] SPI Flash: 4MB, Mode: DIO, Speed: 40MHz</div>
+                <div class="text-text-muted">[NVS] Partition table verified. LittleFS mounted at /littlefs (1.4MB)</div>
+                <div class="text-status-telemetry">[WIFI] Connecting to SSID "UPJ-IOT-EXT" ...</div>
+                <div class="text-status-online">[WIFI] Connected! IPv4: 192.168.1.101, Gateway: 192.168.1.1, RSSI: -56 dBm</div>
+                <div class="text-primary">[MQTT] Initiating mTLS handshake with broker.upj.io:8883 (Cert valid 2028)</div>
+                <div class="text-status-online">[MQTT] ClientID upj_gw_livingroom CONNECTED (CleanSession=0, Keepalive=60s)</div>
+                <div class="text-text-muted">[SYS] Free Heap: 198,720 bytes. Min Free Heap: 184,120 bytes.</div>
+                <div class="text-on-surface">[TELEMETRY] PUBLISH upj/caugiay/livingroom/telemetry -> {"temp": 25.8, "humid": 62, "watt": 185}</div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeSerialLog() {
+            document.getElementById('serial-log-modal').classList.add('hidden');
+        }
+
+        function clearSerialLogs() {
+            document.getElementById('serial-log-stream').innerHTML = '<div class="text-text-muted">// Log buffer cleared. Listening on UART RX...</div>';
+        }
+
+        function showQrForNode(nodeName, mac, pin) {
+            document.getElementById('qr-node-title').textContent = `Tem Nhãn Ghép Nối: ${nodeName}`;
+            document.getElementById('qr-mac-text').textContent = mac;
+            document.getElementById('qr-pin-text').textContent = pin;
+            document.getElementById('qr-view-modal').classList.remove('hidden');
+        }
+
+        function closeQrViewModal() {
+            document.getElementById('qr-view-modal').classList.add('hidden');
+        }
+
+        function printQrTag() {
+            if (window.showToast) window.showToast('In Tem Nhãn', 'Đã chuyển lệnh in tem QR nhãn dán bo mạch ra máy in nhiệt.', 'success');
+            closeQrViewModal();
+        }
+    </script>
+    <!-- Core Shared Mock App Script -->
+    <script src="mock-app.js"></script>
+</body>
+</html>

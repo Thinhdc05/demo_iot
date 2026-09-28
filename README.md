@@ -13,7 +13,7 @@ Dự án được xây dựng dưới dạng Static Web App (Zero-build, chỉ g
 | **1** | **Tổng quan (Dashboard)** | [`index.html`](index.html) / [`dashboard.html`](dashboard.html) | Bảng điều khiển trung tâm, telemetry realtime, công tắc relay đèn, điều tốc quạt PWM 3 cấp, chỉ số node. |
 | **2** | **Hệ thống & Không gian** | [`system_and_Space.html`](system_and_Space.html) | Phân cấp không gian vật lý theo phòng/tầng (Khách, Bếp, Ngủ, Sân thượng, Tủ điện), giám sát môi trường và Gateway phụ trách. |
 | **3** | **Bảng điều khiển Thiết bị** | [`device.html`](device.html) | Chi tiết thiết bị ngoại vi, test còi báo động Gas MQ-2, thanh tra chân GPIO ESP32 và nạp cấu hình NVS Flash. |
-| **4** | **Cổng ESP32 Gateway** | [`device.html#gateways`](device.html#gateways) | Giám sát trạng thái 3 Gateway, IP/MAC mTLS, thông số mạng Mesh. |
+| **4** | **Cổng điều khiển ESP32** | [`gateway.html`](gateway.html) / [`controller.html`](controller.html) | **Quản lý Controller phần cứng**: Ghép nối Gateway mới qua **Quét mã QR bo mạch** hoặc nhập **MAC & Setup PIN Code** (PoP), giám sát RAM FreeRTOS Heap, Uptime, mTLS certs, và xem log UART Serial Monitor trực tiếp. |
 | **5** | **Kịch bản Tự động hóa** | [`rule.html`](rule.html) | Trình thiết lập luật IF-THEN, bộ biên dịch phân tán LittleFS Flash chạy Edge khi mất kết nối mạng. |
 | **6** | **Thống kê Năng lượng & Logs** | [`stat.html`](stat.html) | Phân tích phụ tải điện EVN kWh lũy kế, chi phí tạm tính, Log Explorer thời gian thực và xuất dữ liệu CSV. |
 | **7** | **Trợ lý AI Cấu hình** | [`AI.html`](AI.html) | **Gemini Generative IoT Copilot**: Phân tích ngôn ngữ tự nhiên thành cấu hình chân GPIO và payload MQTT nạp trực tiếp. |
